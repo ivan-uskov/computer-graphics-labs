@@ -20,8 +20,8 @@ signals:
 
 private slots:
     void onAccepted();
+    void disableSubmitIsEmpty(QString const& newValue);
     void valueFieldChanged(int newValue);
-    void nameFieldChanged(QString const& newValue);
 
 private:
     Ui::InsertRowDialog *ui;
