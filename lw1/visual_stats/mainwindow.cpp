@@ -8,6 +8,7 @@
 #include <QDebug>
 #include <unordered_set>
 #include <QResizeEvent>
+#include <QCloseEvent>
 #include <QMessageBox>
 
 namespace
@@ -16,9 +17,9 @@ namespace
     static const QString SAVE_QUESTION_MSG("Save?");
 }
 
-MainWindow::MainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    m_ui(new Ui::MainWindow)
+MainWindow::MainWindow(QWidget *parent)
+    : QMainWindow(parent)
+    , m_ui(new Ui::MainWindow)
 {
     m_ui->setupUi(this);
 
@@ -118,6 +119,7 @@ void MainWindow::initTableData()
     m_ui->tableData->setModel(m_tableModel.get());
     m_ui->tableData->setAlternatingRowColors(true);
     m_ui->tableData->setSortingEnabled(true);
+    m_ui->tableData->sortByColumn(0, Qt::AscendingOrder);
 }
 
 void MainWindow::initDocument()

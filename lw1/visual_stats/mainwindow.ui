@@ -38,6 +38,9 @@
     <property name="alternatingRowColors">
      <bool>true</bool>
     </property>
+    <property name="sortingEnabled">
+     <bool>true</bool>
+    </property>
     <attribute name="horizontalHeaderDefaultSectionSize">
      <number>250</number>
     </attribute>
@@ -58,7 +61,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>26</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">

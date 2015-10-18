@@ -3,15 +3,15 @@
 
 namespace
 {
-enum
-{
-    COLUMN_ID_NAME = 0,
-    COLUMN_ID_VALUE,
-    ROWS_COUNT
-};
+    enum
+    {
+        COLUMN_ID_NAME = 0,
+        COLUMN_ID_VALUE,
+        ROWS_COUNT
+    };
 
-static const char COLUMN_TITLE_NAME[] = "Country Name";
-static const char COLUMN_TITLE_VALUE[] = "Population (in millions)";
+    static const char COLUMN_TITLE_NAME[] = "Country Name";
+    static const char COLUMN_TITLE_VALUE[] = "Population (in millions)";
 }
 
 StatsTableModel::StatsTableModel(QObject *parent)
@@ -59,7 +59,9 @@ int StatsTableModel::columnCount(const QModelIndex &parent) const
 QVariant StatsTableModel::data(const QModelIndex &index, int role) const
 {
     if (static_cast<size_t>(index.row()) > m_statsModel.size())
+    {
         return QVariant();
+    }
 
     if (role == Qt::DisplayRole || role == Qt::EditRole)
     {
