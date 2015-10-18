@@ -5,59 +5,84 @@
 #include <QWidget>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QErrorMessage>
 
 namespace
 {
-const QLatin1String FILE_FORMAT_FILTER("*.json");
+    static const QLatin1String FILE_EXTENSION(".json");
+    static const QLatin1String FILE_FORMAT_FILTER("*.json");
+    static const QLatin1String SAVE_ACTION_ERROR_MSG("Failed to save file");
 }
 
 StatsDocument::StatsDocument(QWidget *parent, IStatsModelProvider &provider)
     : QObject(parent)
     , m_provider(provider)
+    , isNew(true)
 {
-
 }
 
 void StatsDocument::createNew()
 {
     StatsKeyValueModel model;
     m_provider.setStatsModel(model);
+    isNew = true;
 }
 
 bool StatsDocument::open()
 {
-    QString openPath = selectOpenPath();
-    if (openPath.isEmpty())
+    documentPath = selectOpenPath();
+    if (documentPath.isEmpty())
     {
         return false;
     }
 
     StatsKeyValueModel model;
-    StatsSerializer serializer(openPath);
+    StatsSerializer serializer(documentPath);
     if (!serializer.load(model))
     {
         return false;
     }
 
     m_provider.setStatsModel(model);
-    return true;
+    m_provider.setIsSaved();
+    isNew = false;
+    return !isNew;
 }
 
 bool StatsDocument::save()
 {
-    // TODO: implement me.
-    return false;
+    if (isNew)
+    {
+        return saveAs();
+    }
+    else if (!documentPath.isEmpty())
+    {
+        return saveDocument(documentPath);
+    }
 }
 
 bool StatsDocument::saveAs()
 {
-    QString savePath = selectSavePath();
-    if (savePath.isEmpty())
+    documentPath = selectSavePath();
+    return !documentPath.isEmpty() && saveDocument(documentPath + FILE_EXTENSION);
+}
+
+bool StatsDocument::saveDocument(const QString &filePath)
+{
+    StatsSerializer serializer(filePath);
+    auto success = serializer.save(m_provider.statsModel());
+    if (success)
     {
-        return false;
+        isNew = false;
     }
-    StatsSerializer serializer(savePath);
-    return serializer.save(m_provider.statsModel());
+    else
+    {
+        QErrorMessage errorBox;
+        errorBox.showMessage(SAVE_ACTION_ERROR_MSG);
+        errorBox.exec();
+    }
+
+    return success;
 }
 
 QString StatsDocument::selectSavePath() const

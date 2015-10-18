@@ -19,8 +19,12 @@ public:
     bool saveAs();
 
 private:
+    bool saveDocument(QString const& filePath);
+
     QString selectSavePath() const;
     QString selectOpenPath() const;
 
+    bool isNew;
+    QString documentPath;
     IStatsModelProvider &m_provider;
 };

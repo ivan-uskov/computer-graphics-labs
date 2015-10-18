@@ -30,7 +30,7 @@ void StatsTableModel::setStatsModel(const StatsKeyValueModel &statsModel)
 {
     emit layoutAboutToBeChanged();
     m_statsModel = statsModel;
-    m_isSaved = true;
+    m_isSaved = false;
     emit layoutChanged();
 }
 
@@ -47,7 +47,7 @@ void StatsTableModel::setIsSaved()
 int StatsTableModel::rowCount(const QModelIndex &parent) const
 {
     (void)parent;
-    return m_statsModel.size();
+    return (int)m_statsModel.size();
 }
 
 int StatsTableModel::columnCount(const QModelIndex &parent) const
@@ -74,7 +74,6 @@ QVariant StatsTableModel::data(const QModelIndex &index, int role) const
     }
     return QVariant();
 }
-
 
 QVariant StatsTableModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
