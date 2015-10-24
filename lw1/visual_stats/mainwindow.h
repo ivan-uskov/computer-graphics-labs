@@ -26,13 +26,14 @@ private slots:
     void on_saveDocumentAs_triggered();
     void on_showTable_triggered();
     void on_showDiagram_triggered();
-
     void on_actionAbout_triggered();
-
     void on_actionInsertRow_triggered();
+    void on_actionDeleteRow_triggered();
+    void on_actionUndo_triggered();
+    void on_actionRedo_triggered();
+
     void onRowReady(QString text, int value);
 
-    void on_actionDeleteRow_triggered();
 private:
     void initTableData();
     void initDocument();

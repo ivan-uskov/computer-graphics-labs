@@ -10,6 +10,7 @@
 #include <QResizeEvent>
 #include <QCloseEvent>
 #include <QMessageBox>
+#include <QErrorMessage>
 
 namespace
 {
@@ -85,6 +86,20 @@ void MainWindow::on_actionInsertRow_triggered()
     dialog->exec();
 }
 
+void MainWindow::on_actionUndo_triggered()
+{
+    QErrorMessage error;
+    error.showMessage("Undo triggered");
+    error.exec();
+}
+
+void MainWindow::on_actionRedo_triggered()
+{
+    QErrorMessage error;
+    error.showMessage("Redo triggered");
+    error.exec();
+}
+
 void MainWindow::onRowReady(QString text, int value)
 {
     auto model = m_tableModel->statsModel();
@@ -119,7 +134,6 @@ void MainWindow::initTableData()
     m_ui->tableData->setModel(m_tableModel.get());
     m_ui->tableData->setAlternatingRowColors(true);
     m_ui->tableData->setSortingEnabled(true);
-    m_ui->tableData->sortByColumn(0, Qt::AscendingOrder);
 }
 
 void MainWindow::initDocument()

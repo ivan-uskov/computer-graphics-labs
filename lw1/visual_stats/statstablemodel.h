@@ -3,6 +3,7 @@
 #include "statskeyvaluemodel.h"
 #include "istatsmodelprovider.h"
 #include <QAbstractTableModel>
+#include <QSortFilterProxyModel>
 #include <vector>
 #include <memory>
 
@@ -32,4 +33,9 @@ public:
 private:
     bool m_isSaved = false;
     StatsKeyValueModel m_statsModel;
+    QSortFilterProxyModel m_sortModel;
+
+    // QAbstractItemModel interface
+public:
+    void sort(int column, Qt::SortOrder order);
 };
