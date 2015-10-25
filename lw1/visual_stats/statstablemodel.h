@@ -3,8 +3,8 @@
 #include "statskeyvaluemodel.h"
 #include "istatsmodelprovider.h"
 #include <QAbstractTableModel>
+#include <QUndoCommand>
 #include <vector>
-#include <QUndoStack>
 #include <memory>
 #include <set>
 
@@ -23,6 +23,14 @@ public:
     void setIsSaved() override;
     void deleteRows(std::set<int> const& rowsToDelete);
     void insertRow(QString const& name, int value);
+    void undo();
+    void redo();
+
+signals:
+    void availableForUndo();
+    void unavailableForUndo();
+    void availableForRedo();
+    void unavailableForRedo();
 
     // QAbstractItemModel interface
 public:
@@ -34,8 +42,14 @@ public:
     bool setData(const QModelIndex &index, const QVariant &value, int role) override;
     void sort(int column, Qt::SortOrder order);
 
+    friend class EditStatsModelCommand;
+    friend class SortStatsModelCommand;
+    friend class InsertRowStatsModelCommand;
+    friend class DeleteRowsStatsModelCommand;
+
 private:
     bool m_isSaved = false;
     StatsKeyValueModel m_statsModel;
-    std::unique_ptr<QUndoStack> m_undoStack;
+    std::vector<std::shared_ptr<QUndoCommand>> m_undoStack;
+    std::vector<std::shared_ptr<QUndoCommand>> m_redoStack;
 };

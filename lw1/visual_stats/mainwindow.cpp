@@ -82,16 +82,12 @@ void MainWindow::on_actionInsertRow_triggered()
 
 void MainWindow::on_actionUndo_triggered()
 {
-    QErrorMessage error;
-    error.showMessage("Undo triggered");
-    error.exec();
+    m_tableModel->undo();
 }
 
 void MainWindow::on_actionRedo_triggered()
 {
-    QErrorMessage error;
-    error.showMessage("Redo triggered");
-    error.exec();
+    m_tableModel->redo();
 }
 
 void MainWindow::onRowReady(QString text, int value)

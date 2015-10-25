@@ -41,7 +41,7 @@ private:
     bool verifyCanCloseDocument();
     QMessageBox::StandardButton processSaveChangesDialog();
 
-    Ui::MainWindow *m_ui;
+    Ui::MainWindow * m_ui;
     std::shared_ptr<StatsTableModel> m_tableModel;
     std::unique_ptr<StatsDocument> m_document;
 

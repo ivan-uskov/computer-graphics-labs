@@ -1,3 +1,7 @@
+#include "editstatsmodelcommand.h"
+#include "insertrowstatsmodelcommand.h"
+#include "deleterowsstatsmodelcommand.h"
+#include "sortstatsmodelcommand.h"
 #include "statstablemodel.h"
 #include "statsdocument.h"
 #include <algorithm>
@@ -9,9 +13,8 @@ namespace
     static const char COLUMN_TITLE_VALUE[] = "Population (in millions)";
 }
 
-StatsTableModel::StatsTableModel(QObject *parent)
+StatsTableModel::StatsTableModel(QObject * parent)
     : QAbstractTableModel(parent)
-    , m_undoStack(new QUndoStack(this))
 {
     m_statsModel.setSampleValues();
     m_isSaved = false;
@@ -22,7 +25,7 @@ const StatsKeyValueModel &StatsTableModel::statsModel() const
     return m_statsModel;
 }
 
-void StatsTableModel::setStatsModel(const StatsKeyValueModel &statsModel)
+void StatsTableModel::setStatsModel(StatsKeyValueModel const& statsModel)
 {
     emit layoutAboutToBeChanged();
     m_statsModel = statsModel;
@@ -40,19 +43,19 @@ void StatsTableModel::setIsSaved()
     m_isSaved = true;
 }
 
-int StatsTableModel::rowCount(const QModelIndex &parent) const
+int StatsTableModel::rowCount(QModelIndex const& parent) const
 {
     (void)parent;
     return (int)m_statsModel.size();
 }
 
-int StatsTableModel::columnCount(const QModelIndex &parent) const
+int StatsTableModel::columnCount(QModelIndex const& parent) const
 {
     (void)parent;
     return StatsKeyValueModel::COLUMNS_COUNT;
 }
 
-QVariant StatsTableModel::data(const QModelIndex &index, int role) const
+QVariant StatsTableModel::data(QModelIndex const& index, int role) const
 {
     if (static_cast<size_t>(index.row()) > m_statsModel.size())
     {
@@ -92,61 +95,109 @@ QVariant StatsTableModel::headerData(int section, Qt::Orientation orientation, i
     return QAbstractTableModel::headerData(section, orientation, role);
 }
 
-Qt::ItemFlags StatsTableModel::flags(const QModelIndex &index) const
+Qt::ItemFlags StatsTableModel::flags(QModelIndex const& index) const
 {
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
 
-bool StatsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool StatsTableModel::setData(QModelIndex const& index, QVariant const& value, int role)
 {
     auto isIndexValid = static_cast<size_t>(index.row()) < m_statsModel.size();
 
     if (role == Qt::EditRole && isIndexValid)
     {
         m_isSaved = false;
-        switch (index.column())
-        {
-        case StatsKeyValueModel::Column::Name:
-            m_statsModel.setKey(index.row(), value.toString());
-            return true;
-        case StatsKeyValueModel::Column::Value:
-            m_statsModel.setValue(index.row(), value.toInt());
-            return true;
-        default:
-            break;
-        }
+
+        auto editCommand = std::make_shared<EditStatsModelCommand>(this, index, value);
+        editCommand->redo();
+        m_undoStack.push_back(editCommand);
+
+        return true;
     }
     return QAbstractTableModel::setData(index, value, role);
 }
 
 void StatsTableModel::deleteRows(std::set<int> const& rowsToDelete)
 {
-    StatsKeyValueModel newModel;
-    for (size_t i = 0, n = m_statsModel.size(); i < n; ++i)
-    {
-        if (rowsToDelete.count(static_cast<int>(i)))
-        {
-            continue;
-        }
-        newModel.append(m_statsModel.key(i), m_statsModel.value(i));
-    }
-    setStatsModel(newModel);
+    auto editCommand = std::make_shared<DeleteRowsStatsModelCommand>(this, rowsToDelete);
+    editCommand->redo();
+    m_undoStack.push_back(editCommand);
 }
 
 void StatsTableModel::insertRow(QString const& name, int value)
 {
     emit layoutAboutToBeChanged();
 
-    m_statsModel.append(name, value);
+    auto insertCommand = std::make_shared<InsertRowStatsModelCommand>(this, name, value);
+    insertCommand->redo();
+    m_undoStack.push_back(insertCommand);
 
     emit layoutChanged();
+}
+
+void StatsTableModel::undo()
+{
+    if (m_undoStack.empty())
+    {
+        return;
+    }
+
+    emit layoutAboutToBeChanged();
+
+    auto lastCommand = m_undoStack.back();
+    lastCommand->undo();
+    m_redoStack.push_back(lastCommand);
+    m_undoStack.pop_back();
+
+    emit layoutChanged();
+
+    if (m_undoStack.empty())
+    {
+        emit unavailableForUndo();
+    }
+    else
+    {
+        emit availableForUndo();
+    }
+
+    emit availableForRedo();
+}
+
+void StatsTableModel::redo()
+{
+    if (m_redoStack.empty())
+    {
+        return;
+    }
+
+    emit layoutAboutToBeChanged();
+
+    auto lastCommand = m_redoStack.back();
+    lastCommand->redo();
+    m_undoStack.push_back(lastCommand);
+    m_redoStack.pop_back();
+
+    emit layoutChanged();
+
+    if (m_redoStack.empty())
+    {
+        emit unavailableForRedo();
+    }
+    else
+    {
+        emit availableForRedo();
+    }
+
+    emit availableForUndo();
 }
 
 void StatsTableModel::sort(int column, Qt::SortOrder order)
 {
     emit layoutAboutToBeChanged();
 
-    m_statsModel.sort(static_cast<StatsKeyValueModel::Column>(column), order);
+    auto sortCommand = std::make_shared<SortStatsModelCommand>(this, static_cast<StatsKeyValueModel::Column>(column), order);
+    sortCommand->redo();
+    m_undoStack.push_back(sortCommand);
 
     emit layoutChanged();
 }

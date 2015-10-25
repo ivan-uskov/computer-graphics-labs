@@ -2,6 +2,7 @@
 
 #include <QAbstractTableModel>
 #include <vector>
+#include <algorithm>
 
 template <class TKey, class TValue>
 class BaseKeyValueModel
@@ -57,9 +58,39 @@ public:
         return m_items.end();
     }
 
+    iterator getIterator(size_t position)
+    {
+        return begin() + position;
+    }
+
+    Item getItem(size_t position)
+    {
+        return m_items[position];
+    }
+
     void append(TKey const& key, TValue const& value)
     {
         m_items.push_back(Item(key, value));
+    }
+
+    void insert(iterator it, Item const& newItem)
+    {
+        m_items.insert(it, newItem);
+    }
+
+    bool indexExists(size_t index)
+    {
+        return index < m_items.size();
+    }
+
+    bool erase(size_t position)
+    {
+        if (indexExists(position))
+        {
+            m_items.erase(m_items.begin() + position);
+            return true;
+        }
+        return false;
     }
 
 protected:

@@ -22,7 +22,11 @@ SOURCES += main.cpp\
     aboutdialog.cpp \
     insertrowdialog.cpp \
     customtableview.cpp \
-    application.cpp
+    application.cpp \
+    editstatsmodelcommand.cpp \
+    insertrowstatsmodelcommand.cpp \
+    deleterowsstatsmodelcommand.cpp \
+    sortstatsmodelcommand.cpp
 
 HEADERS  += mainwindow.h \
     statstablemodel.h \
@@ -34,7 +38,11 @@ HEADERS  += mainwindow.h \
     aboutdialog.h \
     insertrowdialog.h \
     customtableview.h \
-    application.h
+    application.h \
+    editstatsmodelcommand.h \
+    insertrowstatsmodelcommand.h \
+    deleterowsstatsmodelcommand.h \
+    sortstatsmodelcommand.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui \
