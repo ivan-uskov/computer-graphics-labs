@@ -43,10 +43,7 @@ void MainWindow::on_newDocument_triggered()
 
 void MainWindow::on_saveDocument_triggered()
 {
-    if (m_document->save())
-    {
-        m_tableModel->setIsSaved();
-    }
+    m_document->save();
 }
 
 void MainWindow::on_openDocument_triggered()
@@ -59,10 +56,7 @@ void MainWindow::on_openDocument_triggered()
 
 void MainWindow::on_saveDocumentAs_triggered()
 {
-    if (m_document->saveAs())
-    {
-        m_tableModel->setIsSaved();
-    }
+    m_document->saveAs();
 }
 
 void MainWindow::on_showTable_triggered()
@@ -102,9 +96,7 @@ void MainWindow::on_actionRedo_triggered()
 
 void MainWindow::onRowReady(QString text, int value)
 {
-    auto model = m_tableModel->statsModel();
-    model.append(text, value);
-    m_tableModel->setStatsModel(model);
+    m_tableModel->insertRow(text, value);
 }
 
 void MainWindow::on_actionDeleteRow_triggered()
@@ -115,17 +107,7 @@ void MainWindow::on_actionDeleteRow_triggered()
         return;
     }
 
-    auto statsModel = m_tableModel->statsModel();
-    StatsKeyValueModel newModel;
-    for (size_t i = 0, n = statsModel.size(); i < n; ++i)
-    {
-        if (deletedRows.count(static_cast<int>(i)))
-        {
-            continue;
-        }
-        newModel.append(statsModel.key(i), statsModel.value(i));
-    }
-    m_tableModel->setStatsModel(newModel);
+    m_tableModel->deleteRows(deletedRows);
 }
 
 void MainWindow::initTableData()

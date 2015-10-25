@@ -55,7 +55,7 @@ bool StatsSerializer::load(StatsKeyValueModel &model)
             char buffer[BUFFER_SIZE];
             while (size_t readCount = std::fread(buffer, sizeof(char), BUFFER_SIZE, file))
             {
-                bytes.append(buffer, readCount);
+                bytes.append(buffer, static_cast<int>(readCount));
             }
 
             QJsonParseError parseError;

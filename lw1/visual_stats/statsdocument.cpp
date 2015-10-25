@@ -59,6 +59,8 @@ bool StatsDocument::save()
     {
         return saveDocument(documentPath);
     }
+
+    return false;
 }
 
 bool StatsDocument::saveAs()
@@ -73,6 +75,7 @@ bool StatsDocument::saveDocument(const QString &filePath)
     auto success = serializer.save(m_provider.statsModel());
     if (success)
     {
+        m_provider.setIsSaved();
         isNew = false;
     }
     else

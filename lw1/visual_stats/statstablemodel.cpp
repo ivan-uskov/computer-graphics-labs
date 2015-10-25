@@ -1,6 +1,5 @@
 #include "statstablemodel.h"
 #include "statsdocument.h"
-#include <QSortFilterProxyModel>
 #include <algorithm>
 #include <QErrorMessage>
 
@@ -12,6 +11,7 @@ namespace
 
 StatsTableModel::StatsTableModel(QObject *parent)
     : QAbstractTableModel(parent)
+    , m_undoStack(new QUndoStack(this))
 {
     m_statsModel.setSampleValues();
     m_isSaved = false;
@@ -97,10 +97,11 @@ Qt::ItemFlags StatsTableModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable | QAbstractTableModel::flags(index);
 }
 
-
 bool StatsTableModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (role == Qt::EditRole && static_cast<size_t>(index.row()) < m_statsModel.size())
+    auto isIndexValid = static_cast<size_t>(index.row()) < m_statsModel.size();
+
+    if (role == Qt::EditRole && isIndexValid)
     {
         m_isSaved = false;
         switch (index.column())
@@ -116,6 +117,29 @@ bool StatsTableModel::setData(const QModelIndex &index, const QVariant &value, i
         }
     }
     return QAbstractTableModel::setData(index, value, role);
+}
+
+void StatsTableModel::deleteRows(std::set<int> const& rowsToDelete)
+{
+    StatsKeyValueModel newModel;
+    for (size_t i = 0, n = m_statsModel.size(); i < n; ++i)
+    {
+        if (rowsToDelete.count(static_cast<int>(i)))
+        {
+            continue;
+        }
+        newModel.append(m_statsModel.key(i), m_statsModel.value(i));
+    }
+    setStatsModel(newModel);
+}
+
+void StatsTableModel::insertRow(QString const& name, int value)
+{
+    emit layoutAboutToBeChanged();
+
+    m_statsModel.append(name, value);
+
+    emit layoutChanged();
 }
 
 void StatsTableModel::sort(int column, Qt::SortOrder order)

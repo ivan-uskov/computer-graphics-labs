@@ -5,8 +5,9 @@
 #include <QString>
 #include <memory>
 
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 class StatsTableModel;
 class StatsDocument;
