@@ -1,6 +1,4 @@
-#ifndef INSERTROWDIALOG_H
-#define INSERTROWDIALOG_H
-
+#pragma once
 #include <QDialog>
 
 namespace Ui {
@@ -26,5 +24,3 @@ private slots:
 private:
     Ui::InsertRowDialog *ui;
 };
-
-#endif // INSERTROWDIALOG_H

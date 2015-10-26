@@ -111,7 +111,19 @@ void MainWindow::initTableData()
     m_tableModel = std::make_shared<StatsTableModel>();
     m_ui->tableData->setModel(m_tableModel.get());
     m_ui->tableData->setAlternatingRowColors(true);
-    m_ui->tableData->setSortingEnabled(true);
+
+    connect(m_tableModel.get(), &StatsTableModel::availableForUndo, [=](){
+        m_ui->actionUndo->setEnabled(true);
+    });
+    connect(m_tableModel.get(), &StatsTableModel::unavailableForUndo, [=](){
+        m_ui->actionUndo->setDisabled(true);
+    });
+    connect(m_tableModel.get(), &StatsTableModel::availableForRedo, [=](){
+        m_ui->actionRedo->setEnabled(true);
+    });
+    connect(m_tableModel.get(), &StatsTableModel::unavailableForRedo, [=](){
+        m_ui->actionRedo->setDisabled(true);
+    });
 }
 
 void MainWindow::initDocument()
