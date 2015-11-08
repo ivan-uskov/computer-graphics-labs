@@ -17,4 +17,6 @@ public:
 
     void setSampleValues();
     void sort(Column column, Qt::SortOrder order);
+
+    size_t commonValue();
 };

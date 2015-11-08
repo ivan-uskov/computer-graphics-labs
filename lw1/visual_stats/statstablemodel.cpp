@@ -108,9 +108,13 @@ bool StatsTableModel::setData(QModelIndex const& index, QVariant const& value, i
     {
         m_isSaved = false;
 
+        emit layoutAboutToBeChanged();
+
         auto editCommand = std::make_shared<EditStatsModelCommand>(this, index, value);
         editCommand->redo();
         m_undoStack.push_back(editCommand);
+
+        emit layoutChanged();
 
         return true;
     }

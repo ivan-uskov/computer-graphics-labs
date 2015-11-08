@@ -111,6 +111,8 @@ void MainWindow::initTableData()
     m_tableModel = std::make_shared<StatsTableModel>();
     m_ui->tableData->setModel(m_tableModel.get());
     m_ui->tableData->setAlternatingRowColors(true);
+    m_ui->diagram2D->setModel(m_tableModel->statsModel());
+    m_ui->diagram3D->setModel(m_tableModel->statsModel());
 
     connect(m_tableModel.get(), &StatsTableModel::availableForUndo, [=](){
         m_ui->actionUndo->setEnabled(true);
@@ -124,6 +126,10 @@ void MainWindow::initTableData()
     connect(m_tableModel.get(), &StatsTableModel::unavailableForRedo, [=](){
         m_ui->actionRedo->setDisabled(true);
     });
+    connect(m_tableModel.get(), &StatsTableModel::layoutChanged, [=](){
+        m_ui->diagram2D->setModel(m_tableModel->statsModel());
+        m_ui->diagram3D->setModel(m_tableModel->statsModel());
+    });
 }
 
 void MainWindow::initDocument()
@@ -134,6 +140,12 @@ void MainWindow::initDocument()
     m_ui->saveDocumentAs->setShortcut(QKeySequence(QKeySequence::SaveAs));
 
     m_document.reset(new StatsDocument(this, *m_tableModel));
+}
+
+QRect MainWindow::calcDiagram2DGeometry(const QRect &selfSize)
+{
+    auto halfWidth = selfSize.width() / 2;
+    return QRect(halfWidth, selfSize.y(), selfSize.width(), std::min(selfSize.height(), halfWidth));
 }
 
 bool MainWindow::verifyCanCloseDocument()
@@ -164,12 +176,6 @@ QMessageBox::StandardButton MainWindow::processSaveChangesDialog()
                 QMessageBox::Yes |
                 QMessageBox::No  |
                 QMessageBox::Cancel);
-}
-
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-    QRect tableArea = QRect(QPoint(0, 0), event->size());
-    m_ui->tableData->setGeometry(tableArea);
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

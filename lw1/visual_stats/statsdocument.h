@@ -24,7 +24,7 @@ private:
     QString selectSavePath() const;
     QString selectOpenPath() const;
 
-    bool isNew;
-    QString documentPath;
-    IStatsModelProvider &m_provider;
+    bool m_isNew;
+    QString m_documentPath;
+    IStatsModelProvider & m_provider;
 };

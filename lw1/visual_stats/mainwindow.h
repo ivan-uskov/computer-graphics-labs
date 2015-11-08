@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QString>
 #include <memory>
+#include "statsdiagram2dwidget.h"
 
 namespace Ui
 {
@@ -39,14 +40,13 @@ private:
     void initTableData();
     void initDocument();
     bool verifyCanCloseDocument();
+    QRect calcDiagram2DGeometry(QRect const& selfSize);
     QMessageBox::StandardButton processSaveChangesDialog();
 
     Ui::MainWindow * m_ui;
     std::shared_ptr<StatsTableModel> m_tableModel;
     std::unique_ptr<StatsDocument> m_document;
 
-    // QWidget interface
 protected:
-    void resizeEvent(QResizeEvent *);
     void closeEvent(QCloseEvent * event);
 };

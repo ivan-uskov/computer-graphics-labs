@@ -16,8 +16,8 @@ public:
     void redo() override;
 
     StatsTableModel * m_tableModel;
+    size_t m_position = 0;
     QModelIndex m_index;
-    size_t m_position;
     QString m_name;
     int m_value;
 };

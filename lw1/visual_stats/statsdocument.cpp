@@ -17,7 +17,7 @@ namespace
 StatsDocument::StatsDocument(QWidget *parent, IStatsModelProvider &provider)
     : QObject(parent)
     , m_provider(provider)
-    , isNew(true)
+    , m_isNew(true)
 {
 }
 
@@ -25,19 +25,19 @@ void StatsDocument::createNew()
 {
     StatsKeyValueModel model;
     m_provider.setStatsModel(model);
-    isNew = true;
+    m_isNew = true;
 }
 
 bool StatsDocument::open()
 {
-    documentPath = selectOpenPath();
-    if (documentPath.isEmpty())
+    m_documentPath = selectOpenPath();
+    if (m_documentPath.isEmpty())
     {
         return false;
     }
 
     StatsKeyValueModel model;
-    StatsSerializer serializer(documentPath);
+    StatsSerializer serializer(m_documentPath);
     if (!serializer.load(model))
     {
         return false;
@@ -45,19 +45,19 @@ bool StatsDocument::open()
 
     m_provider.setStatsModel(model);
     m_provider.setIsSaved();
-    isNew = false;
-    return !isNew;
+    m_isNew = false;
+    return !m_isNew;
 }
 
 bool StatsDocument::save()
 {
-    if (isNew)
+    if (m_isNew)
     {
         return saveAs();
     }
-    else if (!documentPath.isEmpty())
+    else if (!m_documentPath.isEmpty())
     {
-        return saveDocument(documentPath);
+        return saveDocument(m_documentPath);
     }
 
     return false;
@@ -65,8 +65,8 @@ bool StatsDocument::save()
 
 bool StatsDocument::saveAs()
 {
-    documentPath = selectSavePath();
-    return !documentPath.isEmpty() && saveDocument(documentPath + FILE_EXTENSION);
+    m_documentPath = selectSavePath();
+    return !m_documentPath.isEmpty() && saveDocument(m_documentPath + FILE_EXTENSION);
 }
 
 bool StatsDocument::saveDocument(const QString &filePath)
@@ -76,7 +76,7 @@ bool StatsDocument::saveDocument(const QString &filePath)
     if (success)
     {
         m_provider.setIsSaved();
-        isNew = false;
+        m_isNew = false;
     }
     else
     {

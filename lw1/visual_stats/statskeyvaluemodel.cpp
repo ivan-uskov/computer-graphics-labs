@@ -69,3 +69,12 @@ void StatsKeyValueModel::sort(StatsKeyValueModel::Column column, Qt::SortOrder o
     std::sort(m_items.begin(), m_items.end(), comparator);
 }
 
+size_t StatsKeyValueModel::commonValue()
+{
+    size_t sum = 0;
+    std::for_each(begin(), end(), [&sum](StatsKeyValueModel::Item const& item){
+        sum += item.second;
+    });
+
+    return sum;
+}

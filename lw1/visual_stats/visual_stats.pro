@@ -26,7 +26,11 @@ SOURCES += main.cpp\
     editstatsmodelcommand.cpp \
     insertrowstatsmodelcommand.cpp \
     deleterowsstatsmodelcommand.cpp \
-    sortstatsmodelcommand.cpp
+    sortstatsmodelcommand.cpp \
+    statsdiagram2dwidget.cpp \
+    statsdiagram3dwidget.cpp \
+    basestatsdiagramwidget.cpp \
+    mymath.cpp
 
 HEADERS  += mainwindow.h \
     statstablemodel.h \
@@ -42,7 +46,11 @@ HEADERS  += mainwindow.h \
     editstatsmodelcommand.h \
     insertrowstatsmodelcommand.h \
     deleterowsstatsmodelcommand.h \
-    sortstatsmodelcommand.h
+    sortstatsmodelcommand.h \
+    statsdiagram2dwidget.h \
+    mymath.h \
+    statsdiagram3dwidget.h \
+    basestatsdiagramwidget.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui \
