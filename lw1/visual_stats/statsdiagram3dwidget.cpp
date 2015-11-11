@@ -1,116 +1,91 @@
 #include "statsdiagram3dwidget.h"
-#include <QPainter>
-#include <QPainterPath>
-#include <QVector3D>
 #include <QRectF>
-#include <QDebug>
 #include <algorithm>
+#include <QPainterPath>
+#include <QDebug>
 #include "mymath.h"
 
 namespace
 {
-    static const int TIMER_INTERVAL = 20;
-    static const float TIME_COEF = 0.1f;
-
-    QVector2D project3D(QVector3D const& point)
-    {
-        QVector2D result;
-        result.setX(MyMath::SIN_60 * (point.x() + point.y()));
-        result.setY(-point.z() + MyMath::SIN_30 * (point.y() - point.x()));
-
-        return result;
-    }
+    static const int HEIGHT = 40;
+    static const QRectF DIAGRAM_RECT(80.0, 20.0, 200.0, 200.0);
+    static const MyRange FRONT_ANGLES(MyMath::HALF_RING_D, MyMath::FULL_RING_D);
+    static const MyRange FRONT_ANGLES_TWO(MyMath::FULL_RING_D + MyMath::HALF_RING_D, MyMath::FULL_RING_D * 2);
 }
 
 StatsDiagram3DWidget::StatsDiagram3DWidget(QWidget *parent)
     : BaseStatsDiagramWidget(parent)
 {
-    //m_time.start();
-    //connect(&m_timer, SIGNAL(timeout()), this, SLOT(update()));
-    //m_timer.setInterval(TIMER_INTERVAL);
-    //m_timer.setSingleShot(false);
-    //m_timer.start(m_timer.interval());
 }
 
 void StatsDiagram3DWidget::paintEvent(QPaintEvent *)
 {
     QPainter painter(this);
-    painter.setPen(Qt::NoPen);
     painter.setRenderHint(QPainter::Antialiasing);
 
-    //auto time = TIME_COEF * m_time.elapsed();
-    std::for_each(m_elements.rbegin(), m_elements.rend(), [this, &painter](DiagramElement const& elt){
-        painter.setBrush(elt.color);
-        std::for_each(elt.points.begin(), elt.points.end(), [this, &painter](Polygon const& polygon){
-            if (!this->isVisible(polygon))
-            {
-                return;
-            }
-
-            QPainterPath path;
-            path.moveTo(project3D(polygon[0]).toPointF() + this->rect().center());
-            path.lineTo(project3D(polygon[1]).toPointF() + this->rect().center());
-            path.lineTo(project3D(polygon[2]).toPointF() + this->rect().center());
-            path.lineTo(project3D(polygon[3]).toPointF() + this->rect().center());
-            painter.drawPath(path);
-        });
-    });
-}
-
-void StatsDiagram3DWidget::buildElementMap()
-{
-    auto valueSum = m_model.commonValue();
-    std::vector<QColor> colors = {Qt::red, Qt::blue, Qt::green, Qt::yellow, Qt::gray};
-    auto color = colors.begin();
-    float currentAngle = 0;
-
-    m_elements.clear();
-    std::for_each(m_model.begin(), m_model.end(), [this, valueSum, &currentAngle, &colors, &color](StatsKeyValueModel::Item const& item)
+    std::for_each(m_elements.begin(), m_elements.end(), [this, &painter](DiagramElement const& elt)
     {
-        auto angle = ((static_cast<float>(item.second) / valueSum)) * MyMath::FULL_RING_D;
-        this->m_elements.push_back({this->getElementPoints(currentAngle, angle), *(color++)});
+        auto startAngle = MyMath::getMinimalAngle(elt.startAngle + m_rotateAngle);
 
-        currentAngle += angle;
+        painter.setBrush(elt.color);
+        painter.drawPie(MyMath::perspectRect(DIAGRAM_RECT, MyMath::ANGLE_60_D), startAngle * MyMath::PIE_ANGLE_COEF, elt.spanAngle * MyMath::PIE_ANGLE_COEF);
 
-        if (color == colors.end())
+        MyRange range(startAngle, startAngle + elt.spanAngle);
+        auto visibleAngles = range.intersection(FRONT_ANGLES);
+        auto visibleAnglesBack = range.intersection(FRONT_ANGLES_TWO);
+
+        if (visibleAngles.isValid())
         {
-            color = colors.begin();
+            this->drawDiagramElementBottom(painter, visibleAngles);
+        }
+        if (visibleAnglesBack.isValid())
+        {
+            this->drawDiagramElementBottom(painter, visibleAnglesBack);
         }
     });
 }
 
-StatsDiagram3DWidget::Points StatsDiagram3DWidget::getElementPoints(float startAngle, float spanAngle) const
+bool StatsDiagram3DWidget::isPointInDiagram(QPoint const& point) const
 {
-    auto start = MyMath::degreeToRadians(startAngle);
-    auto end = MyMath::degreeToRadians(startAngle + spanAngle);
+    auto rect = getDiagramRect();
+    auto centeredPoint = point - rect.center();
 
-    auto startX = cos(start) * m_radius;
-    auto startY = sin(start) * m_radius;
-    auto endX = cos(end) * m_radius;
-    auto endY = sin(end) * m_radius;
-    auto topZ = +static_cast<float>(m_height) / 2;
-    //auto bottomZ = -static_cast<float>(m_height) / 2;
-
-    //TODO: uncomments, when implement isVisible
-    return {
-        //{QVector3D(0, 0, bottomZ), QVector3D(0, 0, topZ), QVector3D(startX, startY, topZ), QVector3D(startX, startY, bottomZ)},
-        //{QVector3D(0, 0, bottomZ), QVector3D(0, 0, topZ), QVector3D(endX, endY, topZ), QVector3D(endX, endY, bottomZ)},
-        //{QVector3D(endX, endY, bottomZ), QVector3D(endX, endY, topZ), QVector3D(startX, startY, topZ), QVector3D(startX, startY, bottomZ)},
-        {QVector3D(0, 0, topZ), QVector3D(0, 0, topZ), QVector3D(endX, endY, topZ), QVector3D(startX, startY, topZ)}
-    };
+    return centeredPoint.x() * centeredPoint.x() / (rect.width() * rect.width() / 4) +
+            centeredPoint.y() * centeredPoint.y() / (rect.height() * rect.height()/ 4) <= 1;
 }
 
-bool StatsDiagram3DWidget::isVisible(Polygon const& polygon) const
+QRectF StatsDiagram3DWidget::getDiagramRect() const
 {
-    QVector3D p1(polygon[0]);
-    QVector3D p2(polygon[1]);
-    QVector3D p3(polygon[2]);
-    QVector3D p4(polygon[3]);
-    if (p1 == p2)
-    {
-        return true; //top triangle
-    }
+    return MyMath::perspectRect(DIAGRAM_RECT, MyMath::ANGLE_60_D);
+}
 
-    //TODO: write if
-    return true;
+QVector2D StatsDiagram3DWidget::getBaseVector() const
+{
+    return QVector2D(getDiagramRect().width() / 2, 0);
+}
+
+void StatsDiagram3DWidget::drawDiagramElementBottom(QPainter & painter, MyRange const& visibleAngles)
+{
+    auto xCoefFrom = std::cos(MyMath::degreeToRadians(visibleAngles.from()));
+    auto yCoefFrom = std::sin(MyMath::degreeToRadians(visibleAngles.from()));
+    auto xCoefTo = std::cos(MyMath::degreeToRadians(visibleAngles.to()));
+    auto yCoefTo = std::sin(MyMath::degreeToRadians(visibleAngles.to()));
+    auto rect = getDiagramRect();
+    auto bottomRect = MyMath::perspectRect(QRectF(DIAGRAM_RECT.x(), DIAGRAM_RECT.y(), DIAGRAM_RECT.width(), DIAGRAM_RECT.height() + HEIGHT), MyMath::ANGLE_60_D);
+
+    auto x = (rect.width() / 2) * xCoefTo + rect.center().x();
+    auto y = -(rect.height() / 2) * yCoefTo + rect.center().y();
+    auto x0 = (rect.width() / 2) * xCoefFrom + rect.center().x();
+    auto y0 = -(rect.height() / 2) * yCoefFrom + rect.center().y();
+    auto x0B = (bottomRect.width() / 2) * xCoefFrom + bottomRect.center().x();
+    auto y0B = -(bottomRect.height() / 2) * yCoefFrom + bottomRect.center().y();
+
+    QPainterPath path;
+    path.moveTo(x0, y0);
+    path.lineTo(x0B, y0B);
+    path.arcTo(bottomRect, visibleAngles.from(), (visibleAngles.to() - visibleAngles.from()));
+    path.lineTo(x, y);
+    path.arcTo(rect, visibleAngles.to(), (visibleAngles.from() - visibleAngles.to()));
+
+    painter.drawPath(path);
 }

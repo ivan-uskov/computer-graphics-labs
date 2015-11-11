@@ -30,7 +30,8 @@ SOURCES += main.cpp\
     statsdiagram2dwidget.cpp \
     statsdiagram3dwidget.cpp \
     basestatsdiagramwidget.cpp \
-    mymath.cpp
+    mymath.cpp \
+    myrange.cpp
 
 HEADERS  += mainwindow.h \
     statstablemodel.h \
@@ -50,7 +51,8 @@ HEADERS  += mainwindow.h \
     statsdiagram2dwidget.h \
     mymath.h \
     statsdiagram3dwidget.h \
-    basestatsdiagramwidget.h
+    basestatsdiagramwidget.h \
+    myrange.h
 
 FORMS    += mainwindow.ui \
     aboutdialog.ui \

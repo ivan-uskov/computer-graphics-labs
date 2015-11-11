@@ -113,6 +113,7 @@ bool StatsTableModel::setData(QModelIndex const& index, QVariant const& value, i
         auto editCommand = std::make_shared<EditStatsModelCommand>(this, index, value);
         editCommand->redo();
         m_undoStack.push_back(editCommand);
+        clearRedoStack();
 
         emit layoutChanged();
 
@@ -126,6 +127,7 @@ void StatsTableModel::deleteRows(std::set<int> const& rowsToDelete)
     auto editCommand = std::make_shared<DeleteRowsStatsModelCommand>(this, rowsToDelete);
     editCommand->redo();
     m_undoStack.push_back(editCommand);
+    clearRedoStack();
 }
 
 void StatsTableModel::insertRow(QString const& name, int value)
@@ -135,6 +137,7 @@ void StatsTableModel::insertRow(QString const& name, int value)
     auto insertCommand = std::make_shared<InsertRowStatsModelCommand>(this, name, value);
     insertCommand->redo();
     m_undoStack.push_back(insertCommand);
+    clearRedoStack();
 
     emit layoutChanged();
 }
@@ -202,6 +205,13 @@ void StatsTableModel::sort(int column, Qt::SortOrder order)
     auto sortCommand = std::make_shared<SortStatsModelCommand>(this, static_cast<StatsKeyValueModel::Column>(column), order);
     sortCommand->redo();
     m_undoStack.push_back(sortCommand);
+    clearRedoStack();
 
     emit layoutChanged();
+}
+
+void StatsTableModel::clearRedoStack()
+{
+    m_redoStack.clear();
+    emit unavailableForRedo();
 }

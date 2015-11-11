@@ -48,6 +48,8 @@ public:
     friend class DeleteRowsStatsModelCommand;
 
 private:
+    void clearRedoStack();
+
     bool m_isSaved = false;
     StatsKeyValueModel m_statsModel;
     std::vector<std::shared_ptr<QUndoCommand>> m_undoStack;
