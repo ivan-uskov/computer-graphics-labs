@@ -4,6 +4,8 @@
 #include <QOpenGLPaintDevice>
 #include <QTime>
 #include <memory>
+#include <utility>
+#include <QPointF>
 #include "../gl/basescene.h"
 
 class Window3D : public QWindow
@@ -19,7 +21,13 @@ public:
 
     bool event(QEvent *) override;
 
+signals:
+    void mouseMove(QPointF deltha);
+    void wheelMove(int deltha);
+
 protected:
+    void mouseMoveEvent(QMouseEvent *) override;
+    void wheelEvent(QWheelEvent *) override;
     void exposeEvent(QExposeEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
@@ -37,4 +45,5 @@ private:
     bool m_updatePending = false;
     std::vector<std::shared_ptr<BaseScene>> m_sceneStack;
     QOpenGLContext *m_pContext = nullptr;
+    std::pair<bool, QPointF> m_lastCursor = {false, QPointF()};
 };

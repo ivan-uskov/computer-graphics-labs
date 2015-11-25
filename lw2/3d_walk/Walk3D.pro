@@ -20,7 +20,9 @@ SOURCES += main.cpp \
     gl/basescene.cpp \
     gameapplication.cpp \
     gl/scenecamera.cpp \
-    gl/glhelper.cpp
+    gl/glhelper.cpp \
+    utils/mymath.cpp \
+    utils/rangef.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -30,7 +32,9 @@ HEADERS  += \
     gameapplication.h \
     gl/iscenecamera.h \
     gl/scenecamera.h \
-    gl/glhelper.h
+    gl/glhelper.h \
+    utils/mymath.h \
+    utils/rangef.h
 
 FORMS    +=
 

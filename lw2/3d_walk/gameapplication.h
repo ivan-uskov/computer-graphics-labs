@@ -12,7 +12,10 @@ public:
 
 private slots:
     void loadScene();
+    void moveCamera(QPointF const& deltha);
+    void zoomCamera(int delthaZoom);
 
 private:
     Window3D m_window;
+    QVector3D m_eye = QVector3D(6, -2, 2);
 };

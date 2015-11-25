@@ -56,9 +56,9 @@ static void drawOpenGLCube(bool showWired)
 
     if (showWired) {
         for (SimpleVertex &vert : vertices) {
-            vert.pos.x *= 1.01;
-            vert.pos.y *= 1.01;
-            vert.pos.z *= 1.01;
+            vert.pos.x *= 1.01f;
+            vert.pos.y *= 1.01f;
+            vert.pos.z *= 1.01f;
             vert.color.r = 0;
             vert.color.g = 0;
             vert.color.b = 0;
@@ -101,9 +101,9 @@ ColoredCube::ColoredCube(SceneNode *parent)
 {
 }
 
-void ColoredCube::advance(int64_t msec)
+void ColoredCube::advance(int64_t)
 {
-    (void)msec;
+
 }
 
 void ColoredCube::render(QPainter &)

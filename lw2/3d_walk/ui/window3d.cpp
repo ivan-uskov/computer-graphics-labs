@@ -2,12 +2,15 @@
 #include <QResizeEvent>
 #include <QPainter>
 #include <QGuiApplication>
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QDebug>
 
 Window3D::Window3D(QWindow *parent)
     : QWindow(parent)
 {
     setSurfaceType(QWindow::OpenGLSurface);
-    setFlags(Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+    setFlags(flags() | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
 }
 
 void Window3D::setFixedSize(QSize size)
@@ -48,6 +51,27 @@ bool Window3D::event(QEvent *event)
     default:
         return QWindow::event(event);
     }
+}
+
+void Window3D::mouseMoveEvent(QMouseEvent * event)
+{
+    auto pos = event->screenPos();
+    if (m_lastCursor.first)
+    {
+        auto deltha = pos - m_lastCursor.second;
+        emit mouseMove(deltha);
+    }
+    else
+    {
+        m_lastCursor.second = pos;
+    }
+
+    m_lastCursor.first = !m_lastCursor.first;
+}
+
+void Window3D::wheelEvent(QWheelEvent * event)
+{
+    emit wheelMove(event->angleDelta().y());
 }
 
 void Window3D::exposeEvent(QExposeEvent *event)
