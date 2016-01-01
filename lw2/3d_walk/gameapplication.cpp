@@ -1,9 +1,10 @@
 #include "gameapplication.h"
 #include "gl/scenenode.h"
-#include "nodes/coloredcube.h"
-#include "utils/mymath.h"
+#include "nodes/coloredcubenode.h"
+#include "model/cube.h"
 #include "utils/rangef.h"
 
+using namespace MyMath;
 
 namespace
 {
@@ -22,10 +23,8 @@ int GameApplication::enterGameLoop()
 {
     m_window.setFixedSize(FIXED_WINDOW_SIZE);
     m_window.show();
-    connect(&m_window, SIGNAL(activeChanged()), this, SLOT(loadScene()));
-    connect(&m_window, SIGNAL(mouseMove(QPointF)), this, SLOT(moveCamera(QPointF)));
-    connect(&m_window, SIGNAL(wheelMove(int)), this, SLOT(zoomCamera(int)));
-    connect(&m_window, SIGNAL(keypress(Qt::Key)), this, SLOT(keyPressed(Qt::Key)));
+
+    bindWindowSignals();
 
     return exec();
 }
@@ -34,21 +33,22 @@ void GameApplication::loadScene()
 {
     disconnect(&m_window, SIGNAL(activeChanged()), this, SLOT(loadScene()));
 
-    m_scene->camera().setViewport(m_window.size());
-    m_scene->camera().lookAt(m_eye, QVector3D(0, 0, 0), QVector3D(0, 0, 1));
-    new ColoredCube(m_scene.get());
+    updateCamera();
+    fillMainScene();
+
     m_window.pushScene(m_scene);
 }
 
 void GameApplication::moveCamera(QPointF const& deltha)
 {
-    auto dz = MyMath::degreeToRadians(-deltha.x());
-    auto dy = MyMath::degreeToRadians(-deltha.y());
+    const float MOVE_CAMERA_COEF = 0.5f;
+    auto dx = degreeToRadians(-deltha.y() * MOVE_CAMERA_COEF);
+    auto dy = degreeToRadians(-deltha.x() * MOVE_CAMERA_COEF);
 
-    m_eye = MyMath::rotateZ(m_eye, dz);
-    m_eye = MyMath::rotateY(m_eye, dy);
+    m_eye = rotateX(m_eye, dx);
+    m_eye = rotateY(m_eye, dy);
 
-    loadScene();
+    updateCamera();
 }
 
 void GameApplication::zoomCamera(int delthaZoom)
@@ -60,11 +60,61 @@ void GameApplication::zoomCamera(int delthaZoom)
     {
         zoomedEye *= newLength;
         m_eye = zoomedEye;
-        loadScene();
+        updateCamera();
     }
 }
 
 void GameApplication::keyPressed(Qt::Key key)
 {
-    qDebug() << key;
+    const float DELTHA = 0.1f;
+
+    switch (key)
+    {
+    case Qt::Key_W:
+        m_eye.setZ(m_eye.z() - DELTHA);
+        m_at.setZ(m_at.z() - DELTHA);
+        m_up.setZ(m_up.z() - DELTHA);
+        break;
+    case Qt::Key_A:
+        m_eye.setX(m_eye.x() - DELTHA);
+        m_at.setX(m_at.x() - DELTHA);
+        m_up.setX(m_up.x() - DELTHA);
+        break;
+    case Qt::Key_S:
+        m_eye.setZ(m_eye.z() + DELTHA);
+        m_at.setZ(m_at.z() + DELTHA);
+        m_up.setZ(m_up.z() + DELTHA);
+        break;
+    case Qt::Key_D:
+        m_eye.setX(m_eye.x() + DELTHA);
+        m_at.setX(m_at.x() + DELTHA);
+        m_up.setX(m_up.x() + DELTHA);
+        break;
+    }
+
+    updateCamera();
+}
+
+void GameApplication::bindWindowSignals()
+{
+    connect(&m_window, SIGNAL(activeChanged()), this, SLOT(loadScene()));
+    connect(&m_window, SIGNAL(mouseMove(QPointF)), this, SLOT(moveCamera(QPointF)));
+    connect(&m_window, SIGNAL(wheelMove(int)), this, SLOT(zoomCamera(int)));
+    connect(&m_window, SIGNAL(keypress(Qt::Key)), this, SLOT(keyPressed(Qt::Key)));
+}
+
+void GameApplication::updateCamera()
+{
+    m_scene->camera().setViewport(m_window.size());
+    m_scene->camera().lookAt(m_eye, m_at, m_up);
+}
+
+void GameApplication::fillMainScene()
+{
+    new ColoredCubeNode(m_scene.get(), Cube({0, 0, -2}, 2));
+    new ColoredCubeNode(m_scene.get(), Cube({2, 0, -2}, 2));
+    new ColoredCubeNode(m_scene.get(), Cube({-2,0, -2}, 2));
+    new ColoredCubeNode(m_scene.get(), Cube({0, 0, 0}, 2));
+    new ColoredCubeNode(m_scene.get(), Cube({2, 0, 0}, 2));
+    new ColoredCubeNode(m_scene.get(), Cube({-2, 0, 0}, 2));
 }

@@ -3,8 +3,8 @@
 #include <qopengl.h>
 #include "glhelper.h"
 
-static float const Z_NEAR = 0.02f;
-static float const Z_FAR = 50.0f;
+static float const Z_NEAR = 0.002f;
+static float const Z_FAR = 100.0f;
 
 BaseScene::BaseScene(QSize viewportSize)
     : SceneNode()

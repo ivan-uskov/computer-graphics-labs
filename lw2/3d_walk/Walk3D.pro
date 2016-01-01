@@ -15,26 +15,28 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     ui/window3d.cpp \
-    nodes/coloredcube.cpp \
     gl/scenenode.cpp \
     gl/basescene.cpp \
     gameapplication.cpp \
     gl/scenecamera.cpp \
     gl/glhelper.cpp \
     utils/mymath.cpp \
-    utils/rangef.cpp
+    utils/rangef.cpp \
+    nodes/coloredcubenode.cpp \
+    model/cube.cpp
 
 HEADERS  += \
     ui/window3d.h \
     gl/scenenode.h \
-    nodes/coloredcube.h \
     gl/basescene.h \
     gameapplication.h \
     gl/iscenecamera.h \
     gl/scenecamera.h \
     gl/glhelper.h \
     utils/mymath.h \
-    utils/rangef.h
+    utils/rangef.h \
+    nodes/coloredcubenode.h \
+    model/cube.h
 
 FORMS    +=
 

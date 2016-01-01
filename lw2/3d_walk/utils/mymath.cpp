@@ -45,16 +45,35 @@ namespace MyMath
         return rotateMtx;
     }
 
+    QMatrix3x3 xRotateMatrix3(float angle)
+    {
+        QMatrix3x3 rotateMtx;
+        rotateMtx(0, 0) = 1;
+        rotateMtx(0, 1) = 0;
+        rotateMtx(0, 2) = 0;
+        rotateMtx(1, 0) = 0;
+        rotateMtx(1, 1) = cos(angle);
+        rotateMtx(1, 2) = -sin(angle);
+        rotateMtx(2, 0) = 0;
+        rotateMtx(2, 1) = sin(angle);
+        rotateMtx(2, 2) = cos(angle);
+
+        return rotateMtx;
+    }
+
     QVector3D rotateY(QVector3D const& vec, float angle)
     {
-        auto rotateMtx = yRotateMatrix3(angle);
-        return rotateMtx * vec;
+        return yRotateMatrix3(angle) * vec;
     }
 
     QVector3D rotateZ(QVector3D const& vec, float angle)
     {
-        auto rotateMtx = zRotateMatrix3(angle);
-        return rotateMtx * vec;
+        return zRotateMatrix3(angle) * vec;
+    }
+
+    QVector3D rotateX(QVector3D const& vec, float angle)
+    {
+        return xRotateMatrix3(angle) * vec;
     }
 }
 

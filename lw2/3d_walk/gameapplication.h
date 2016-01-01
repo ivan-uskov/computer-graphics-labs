@@ -17,7 +17,13 @@ private slots:
     void keyPressed(Qt::Key key);
 
 private:
+    void bindWindowSignals();
+    void updateCamera();
+    void fillMainScene();
+
     Window3D m_window;
     std::shared_ptr<BaseScene> m_scene;
-    QVector3D m_eye = QVector3D(6, -2, 2);
+    QVector3D m_eye = QVector3D(0, 4, 4);
+    QVector3D m_at  = QVector3D(0, 0, 0);
+    QVector3D m_up  = QVector3D(0, 6, 0);
 };
