@@ -24,6 +24,8 @@ public:
 signals:
     void mouseMove(QPointF deltha);
     void wheelMove(int deltha);
+    void keypress(Qt::Key key);
+    void keyup(Qt::Key key);
 
 protected:
     void mouseMoveEvent(QMouseEvent *) override;
@@ -31,6 +33,8 @@ protected:
     void exposeEvent(QExposeEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
     void showEvent(QShowEvent *event) override;
+    void keyPressEvent(QKeyEvent *) override;
+    void keyReleaseEvent(QKeyEvent *) override;
 
 private slots:
     void deferRender();
@@ -44,6 +48,6 @@ private:
     bool m_canRender = false;
     bool m_updatePending = false;
     std::vector<std::shared_ptr<BaseScene>> m_sceneStack;
-    QOpenGLContext *m_pContext = nullptr;
+    QOpenGLContext * m_pContext = nullptr;
     std::pair<bool, QPointF> m_lastCursor = {false, QPointF()};
 };

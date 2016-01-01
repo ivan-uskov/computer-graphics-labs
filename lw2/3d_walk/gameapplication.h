@@ -14,8 +14,10 @@ private slots:
     void loadScene();
     void moveCamera(QPointF const& deltha);
     void zoomCamera(int delthaZoom);
+    void keyPressed(Qt::Key key);
 
 private:
     Window3D m_window;
+    std::shared_ptr<BaseScene> m_scene;
     QVector3D m_eye = QVector3D(6, -2, 2);
 };

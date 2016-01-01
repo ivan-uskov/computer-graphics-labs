@@ -14,6 +14,7 @@ namespace
 
 GameApplication::GameApplication(int argc, char *argv[])
     : QGuiApplication(argc, argv)
+    , m_scene(std::make_shared<BaseScene>())
 {
 }
 
@@ -24,6 +25,7 @@ int GameApplication::enterGameLoop()
     connect(&m_window, SIGNAL(activeChanged()), this, SLOT(loadScene()));
     connect(&m_window, SIGNAL(mouseMove(QPointF)), this, SLOT(moveCamera(QPointF)));
     connect(&m_window, SIGNAL(wheelMove(int)), this, SLOT(zoomCamera(int)));
+    connect(&m_window, SIGNAL(keypress(Qt::Key)), this, SLOT(keyPressed(Qt::Key)));
 
     return exec();
 }
@@ -32,11 +34,10 @@ void GameApplication::loadScene()
 {
     disconnect(&m_window, SIGNAL(activeChanged()), this, SLOT(loadScene()));
 
-    auto scene = std::make_shared<BaseScene>();
-    scene->camera().setViewport(m_window.size());
-    scene->camera().lookAt(m_eye, QVector3D(0, 0, 0), QVector3D(0, 0, 1));
-    new ColoredCube(scene.get());
-    m_window.pushScene(scene);
+    m_scene->camera().setViewport(m_window.size());
+    m_scene->camera().lookAt(m_eye, QVector3D(0, 0, 0), QVector3D(0, 0, 1));
+    new ColoredCube(m_scene.get());
+    m_window.pushScene(m_scene);
 }
 
 void GameApplication::moveCamera(QPointF const& deltha)
@@ -46,6 +47,7 @@ void GameApplication::moveCamera(QPointF const& deltha)
 
     m_eye = MyMath::rotateZ(m_eye, dz);
     m_eye = MyMath::rotateY(m_eye, dy);
+
     loadScene();
 }
 
@@ -60,4 +62,9 @@ void GameApplication::zoomCamera(int delthaZoom)
         m_eye = zoomedEye;
         loadScene();
     }
+}
+
+void GameApplication::keyPressed(Qt::Key key)
+{
+    qDebug() << key;
 }

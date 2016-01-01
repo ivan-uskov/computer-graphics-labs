@@ -41,6 +41,7 @@ static void drawOpenGLCube(bool showWired)
     |    |/
     4----5
     */
+
     // Массив координат вершин
     SimpleVertex vertices[8] =
     {
@@ -54,8 +55,10 @@ static void drawOpenGLCube(bool showWired)
         {{-1, +1, +1}, {0, 0, 255, 255}},		// 7
     };
 
-    if (showWired) {
-        for (SimpleVertex &vert : vertices) {
+    if (showWired)
+    {
+        for (SimpleVertex & vert : vertices)
+        {
             vert.pos.x *= 1.01f;
             vert.pos.y *= 1.01f;
             vert.pos.z *= 1.01f;
@@ -103,7 +106,6 @@ ColoredCube::ColoredCube(SceneNode *parent)
 
 void ColoredCube::advance(int64_t)
 {
-
 }
 
 void ColoredCube::render(QPainter &)

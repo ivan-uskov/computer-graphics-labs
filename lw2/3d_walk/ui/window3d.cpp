@@ -4,6 +4,7 @@
 #include <QGuiApplication>
 #include <QMouseEvent>
 #include <QWheelEvent>
+#include <QKeyEvent>
 #include <QDebug>
 
 Window3D::Window3D(QWindow *parent)
@@ -78,7 +79,9 @@ void Window3D::exposeEvent(QExposeEvent *event)
 {
     QWindow::exposeEvent(event);
     if (isExposed())
+    {
         render();
+    }
 }
 
 void Window3D::resizeEvent(QResizeEvent *event)
@@ -95,9 +98,20 @@ void Window3D::showEvent(QShowEvent *event)
     QWindow::showEvent(event);
 }
 
+void Window3D::keyPressEvent(QKeyEvent * event)
+{
+    emit keypress(static_cast<Qt::Key>(event->key()));
+}
+
+void Window3D::keyReleaseEvent(QKeyEvent * event)
+{
+    emit keyup(static_cast<Qt::Key>(event->key()));
+}
+
 void Window3D::deferRender()
 {
-    if (!m_updatePending) {
+    if (!m_updatePending)
+    {
         m_updatePending = true;
         QGuiApplication::postEvent(this, new QEvent(QEvent::UpdateRequest));
     }
@@ -136,11 +150,13 @@ void Window3D::stopRendering()
 
 void Window3D::initRendering()
 {
-    if (!m_pContext) {
+    if (!m_pContext)
+    {
         m_pContext = new QOpenGLContext(this);
         m_pContext->setFormat(requestedFormat());
         m_pContext->create();
     }
+
     m_canRender = true;
     m_updateTime.start();
 }
@@ -151,6 +167,7 @@ void Window3D::updateScene(BaseScene &scene)
 
     int msec = m_updateTime.elapsed();
     m_updateTime.restart();
+
     scene.visit([&](SceneNode & node) {
         node.advance(msec);
     });
