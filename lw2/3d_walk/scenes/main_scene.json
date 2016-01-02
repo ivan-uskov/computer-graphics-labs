@@ -1,0 +1,76 @@
+{
+	"objects":
+	[
+		{
+			"type": "cube",
+			"length": 2,
+			"position": [2, 0, -2],
+			"modifiers":
+			[
+				{
+					"type": "rotating_y",
+					"speed": 70,
+					"rotation_center": [2, 0, -2]
+				}
+			]
+		},
+		{
+			"type": "cube",
+			"length": 2,
+			"position": [-2, 0, -2],
+			"modifiers":
+			[
+				{
+					"type": "rotating_y",
+					"speed": 120,
+					"rotation_center": [-2, 0, -2]
+				}
+			]
+		},
+		{
+			"type": "cube",
+			"length": 2,
+			"position": [0, 0, 0]
+		},
+		{
+			"type": "cube",
+			"length": 2,
+			"position": [2, 0, 2],
+			"modifiers":
+			[
+				{
+					"type": "rotating_y",
+					"speed": 150,
+					"rotation_center": [2, 0, 2]
+				}
+			]
+		},
+		{
+			"type": "cube",
+			"length": 2,
+			"position": [-2, 0, 2],
+			"modifiers":
+			[
+				{
+					"type": "rotating_y",
+					"speed": 50,
+					"rotation_center": [-2, 0, 2]
+				}
+			]
+		},
+		{
+			"type": "cube",
+			"length": 2,
+			"rotating_speed": 100,
+			"position": [0, 4, 0],
+			"modifiers":
+			[
+				{
+					"type": "rotating_y",
+					"speed": 100,
+					"rotation_center": [0, 4, 0]
+				}
+			]
+		}
+	]
+}
