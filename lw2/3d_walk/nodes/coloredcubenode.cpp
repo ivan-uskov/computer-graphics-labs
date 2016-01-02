@@ -52,15 +52,17 @@ void ColoredCubeNode::draw(bool isOnlyBorder)
     // Массив координат вершин
     SimpleVertex vertices[8] =
     {
-        {{x - hl, y - hl, z - hl}, {255, 0, 0, 255}},		// 0
-        {{x + hl, y - hl, z - hl}, {255, 255, 0, 255}},		// 1
-        {{x + hl, y + hl, z - hl}, {0, 255, 0, 255}},		// 2
-        {{x - hl, y + hl, z - hl}, {0, 0, 0, 255}},			// 3
-        {{x - hl, y - hl, z + hl}, {255, 0, 255, 255}},		// 4
-        {{x + hl, y - hl, z + hl}, {255, 255, 255, 255}},	// 5
-        {{x + hl, y + hl, z + hl}, {0, 255, 255, 255}},		// 6
-        {{x - hl, y + hl, z + hl}, {0, 0, 255, 255}},		// 7
+        {{x - hl, y - hl, z - hl}, {255, 0, 0, 255}},       // 0
+        {{x + hl, y - hl, z - hl}, {255, 255, 0, 255}},     // 1
+        {{x + hl, y + hl, z - hl}, {0, 255, 0, 255}},       // 2
+        {{x - hl, y + hl, z - hl}, {0, 0, 0, 255}},         // 3
+        {{x - hl, y - hl, z + hl}, {255, 0, 255, 255}},     // 4
+        {{x + hl, y - hl, z + hl}, {255, 255, 255, 255}},   // 5
+        {{x + hl, y + hl, z + hl}, {0, 255, 255, 255}},     // 6
+        {{x - hl, y + hl, z + hl}, {0, 0, 255, 255}},       // 7
     };
+
+    prepareVertexArray(vertices);
 
     if (isOnlyBorder)
     {
@@ -101,4 +103,8 @@ void ColoredCubeNode::draw(bool isOnlyBorder)
     glDisableClientState(GL_COLOR_ARRAY);
     // Выключаем использование массива координат вершин
     glDisableClientState(GL_VERTEX_ARRAY);
+}
+
+void ColoredCubeNode::prepareVertexArray(VertexArray)
+{
 }

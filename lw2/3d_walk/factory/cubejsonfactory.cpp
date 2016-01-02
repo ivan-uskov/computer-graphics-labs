@@ -1,5 +1,6 @@
 #include "cubejsonfactory.h"
 #include "../nodes/coloredcubenode.h"
+#include "../nodes/rotatingcoloredcubenode.h"
 #include "../config/jsonkey.h"
 #include "../config/scene.h"
 #include "../utils/mycast.h"
@@ -38,6 +39,10 @@ bool CubeJsonFactory::createByNodeType(QString const& nodeType, SceneNode * root
     if (nodeType == SceneNodeType::COLORED_CUBE)
     {
         new ColoredCubeNode(root, cube);
+    }
+    else if (nodeType == SceneNodeType::ROTATING_COLORED_CUBE)
+    {
+        new RotatingColoredCubeNode(root, cube, 100);
     }
     else
     {

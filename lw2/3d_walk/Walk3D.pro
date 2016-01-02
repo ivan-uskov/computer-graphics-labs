@@ -27,7 +27,8 @@ SOURCES += main.cpp \
     utils/jsonsceneloader.cpp \
     utils/scenenodefactory.cpp \
     factory/cubejsonfactory.cpp \
-    utils/mycast.cpp
+    utils/mycast.cpp \
+    nodes/rotatingcoloredcubenode.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -47,7 +48,8 @@ HEADERS  += \
     factory/cubejsonfactory.h \
     config/jsonkey.h \
     config/scene.h \
-    utils/mycast.h
+    utils/mycast.h \
+    nodes/rotatingcoloredcubenode.h
 
 FORMS    +=
 
