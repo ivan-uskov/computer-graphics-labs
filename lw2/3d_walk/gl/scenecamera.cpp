@@ -11,11 +11,11 @@ SceneCamera::SceneCamera(QSize viewport, QObject *parent)
 void SceneCamera::loadMatrix()
 {
     QMatrix4x4 matrix;
-    matrix.lookAt(m_eye, m_eye + m_front, m_up);
+    matrix.lookAt(m_eye, m_front + m_eye, m_up);
     GLHelper::setModelViewMatrix(matrix);
 }
 
-void SceneCamera::lookAt(const QVector3D &eye, const QVector3D &at, const QVector3D &up)
+void SceneCamera::lookAt(QVector3D const& eye, QVector3D const& at, QVector3D const& up)
 {
     m_eye = eye;
     m_front = at - eye;

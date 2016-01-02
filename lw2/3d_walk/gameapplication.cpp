@@ -3,6 +3,8 @@
 #include "nodes/coloredcubenode.h"
 #include "model/cube.h"
 #include "utils/rangef.h"
+#include "utils/jsonsceneloader.h"
+#include <QDebug>
 
 using namespace MyMath;
 
@@ -46,7 +48,9 @@ void GameApplication::moveCamera(QPointF const& deltha)
     auto dy = degreeToRadians(-deltha.x() * MOVE_CAMERA_COEF);
 
     m_eye = rotateX(m_eye, dx);
+    m_up = rotateX(m_up, dx);
     m_eye = rotateY(m_eye, dy);
+    m_up = rotateY(m_up, dy);
 
     updateCamera();
 }
@@ -111,10 +115,12 @@ void GameApplication::updateCamera()
 
 void GameApplication::fillMainScene()
 {
-    new ColoredCubeNode(m_scene.get(), Cube({0, 0, -2}, 2));
-    new ColoredCubeNode(m_scene.get(), Cube({2, 0, -2}, 2));
-    new ColoredCubeNode(m_scene.get(), Cube({-2,0, -2}, 2));
-    new ColoredCubeNode(m_scene.get(), Cube({0, 0, 0}, 2));
-    new ColoredCubeNode(m_scene.get(), Cube({2, 0, 0}, 2));
-    new ColoredCubeNode(m_scene.get(), Cube({-2, 0, 0}, 2));
+    JsonSceneLoader loader("main_scene.json");
+    auto success = loader.loadScene(m_scene.get());
+
+    if (!success)
+    {
+        qDebug() << "Failed to load scene!";
+        exit();
+    }
 }

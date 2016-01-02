@@ -23,7 +23,11 @@ SOURCES += main.cpp \
     utils/mymath.cpp \
     utils/rangef.cpp \
     nodes/coloredcubenode.cpp \
-    model/cube.cpp
+    model/cube.cpp \
+    utils/jsonsceneloader.cpp \
+    utils/scenenodefactory.cpp \
+    factory/cubejsonfactory.cpp \
+    utils/mycast.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -36,7 +40,14 @@ HEADERS  += \
     utils/mymath.h \
     utils/rangef.h \
     nodes/coloredcubenode.h \
-    model/cube.h
+    model/cube.h \
+    utils/jsonsceneloader.h \
+    utils/scenenodefactory.h \
+    config/model.h \
+    factory/cubejsonfactory.h \
+    config/jsonkey.h \
+    config/scene.h \
+    utils/mycast.h
 
 FORMS    +=
 

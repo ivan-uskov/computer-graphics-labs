@@ -177,7 +177,8 @@ void Window3D::updateScene(BaseScene &scene)
     QPainter painter(&device);
     scene.camera().loadMatrix();
     scene.render(painter);
-    scene.visit([&](SceneNode & node) {
+    scene.visit([&](SceneNode & node)
+    {
         node.render(painter);
     });
 }
