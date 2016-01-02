@@ -1,9 +1,8 @@
 #include "gameapplication.h"
 #include "gl/scenenode.h"
-#include "nodes/coloredcubenode.h"
-#include "model/cube.h"
 #include "utils/rangef.h"
 #include "utils/jsonsceneloader.h"
+#include "utils/mymath.h"
 #include <QDebug>
 
 using namespace MyMath;

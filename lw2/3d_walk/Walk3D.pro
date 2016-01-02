@@ -22,13 +22,15 @@ SOURCES += main.cpp \
     gl/glhelper.cpp \
     utils/mymath.cpp \
     utils/rangef.cpp \
-    nodes/coloredcubenode.cpp \
     model/cube.cpp \
     utils/jsonsceneloader.cpp \
     utils/scenenodefactory.cpp \
     factory/cubejsonfactory.cpp \
     utils/mycast.cpp \
-    nodes/rotatingcoloredcubenode.cpp
+    modifier/rotatingynodemodifier.cpp \
+    nodes/modifiedscenenode.cpp \
+    nodes/cubenode.cpp \
+    factory/modifiersjsonfactory.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -40,16 +42,19 @@ HEADERS  += \
     gl/glhelper.h \
     utils/mymath.h \
     utils/rangef.h \
-    nodes/coloredcubenode.h \
     model/cube.h \
     utils/jsonsceneloader.h \
     utils/scenenodefactory.h \
     config/model.h \
     factory/cubejsonfactory.h \
     config/jsonkey.h \
-    config/scene.h \
     utils/mycast.h \
-    nodes/rotatingcoloredcubenode.h
+    modifier/inodemodifier.h \
+    modifier/rotatingynodemodifier.h \
+    nodes/modifiedscenenode.h \
+    nodes/cubenode.h \
+    factory/modifiersjsonfactory.h \
+    config/modifier.h
 
 FORMS    +=
 

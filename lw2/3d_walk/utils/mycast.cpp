@@ -10,4 +10,10 @@ namespace MyCast
 
         return {x, y, z};
     }
+
+    QVector3D jsonArrayToVector3D(QJsonArray const& vectorArray)
+    {
+        auto vec3 = jsonArrayToVec3(vectorArray);
+        return QVector3D(vec3.x, vec3.y, vec3.z);
+    }
 }

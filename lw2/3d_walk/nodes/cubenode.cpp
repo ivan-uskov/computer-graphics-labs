@@ -1,40 +1,35 @@
-#include "coloredcubenode.h"
+#include "cubenode.h"
 #include "utils/mymath.h"
 #include <qopengl.h>
 
 /*
-
-   Y
-   |
-   |
-   |
-   +---X
-  /
- /
-Z
-   3----2
-  /    /|
- /    / |
-7----6  |
-|  0 |  1
-|    | /
-|    |/
-4----5
+       Y
+       |
+       |
+       |
+       +---X
+      /
+     /
+    Z
+       3----2
+      /    /|
+     /    / |
+    7----6  |
+    |  0 |  1
+    |    | /
+    |    |/
+    4----5
 */
 
 using namespace MyMath;
 
-ColoredCubeNode::ColoredCubeNode(SceneNode *parent, Cube const& cube)
-    : SceneNode(parent)
+CubeNode::CubeNode(SceneNode * parent, Cube const& cube)
+    : ModifiedSceneNode(parent)
     , m_cube(cube)
 {
 }
 
-void ColoredCubeNode::advance(int64_t)
-{
-}
-
-void ColoredCubeNode::render(QPainter &)
+void CubeNode::render(QPainter &)
 {
     draw(false);
     glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -42,14 +37,13 @@ void ColoredCubeNode::render(QPainter &)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void ColoredCubeNode::draw(bool isOnlyBorder)
+void CubeNode::draw(bool isOnlyBorder)
 {
     const auto x = m_cube.position().x;
     const auto y = m_cube.position().y;
     const auto z = m_cube.position().z;
     const float hl = m_cube.length() / 2;
 
-    // Массив координат вершин
     SimpleVertex vertices[8] =
     {
         {{x - hl, y - hl, z - hl}, {255, 0, 0, 255}},       // 0
@@ -87,24 +81,24 @@ void ColoredCubeNode::draw(bool isOnlyBorder)
         {4, 5, 6, 7},	// грань z>0
     };
 
-    // Передаем информацию о массиве вершин
     glVertexPointer(3, GL_FLOAT, sizeof(SimpleVertex), &vertices[0].pos);
 
-    // и массиве цветов
-    glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(SimpleVertex), &vertices[1].color);
+    glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(SimpleVertex), &vertices[0].color);
 
-    // Разрешаем использование массива координат вершин и цветов
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
     glDrawElements(GL_QUADS, 24, GL_UNSIGNED_BYTE, faces);
 
-    // Выключаем использовнием массива цветов
     glDisableClientState(GL_COLOR_ARRAY);
-    // Выключаем использование массива координат вершин
     glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void ColoredCubeNode::prepareVertexArray(VertexArray)
+void CubeNode::prepareVertexArray(VertexArray vertexArray)
 {
+    for (int i = 0; i < VERTEX_ARRAY_SIZE; ++i)
+    {
+        auto vert = vertexArray + i;
+        prepareVertex(vert);
+    }
 }

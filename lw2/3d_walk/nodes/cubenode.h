@@ -1,19 +1,17 @@
 #pragma once
 
-#include "../gl/scenenode.h"
+#include "modifiedscenenode.h"
 #include "../model/cube.h"
 #include "../utils/mymath.h"
-#include <vector>
 
-class ColoredCubeNode : public SceneNode
+class CubeNode : public ModifiedSceneNode
 {
 public:
-    ColoredCubeNode(SceneNode * parent, Cube const& cube);
+    CubeNode(SceneNode * parent, Cube const& cube);
 
-    virtual void advance(int64_t msec) override;
     void render(QPainter &painter) override;
 
-protected:
+private:
     static const int VERTEX_ARRAY_SIZE = 8;
     typedef MyMath::SimpleVertex VertexArray[VERTEX_ARRAY_SIZE];
 
