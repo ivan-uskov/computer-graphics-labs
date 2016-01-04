@@ -12,6 +12,8 @@ namespace MyMath
     const float SIN_30           = 0.5f;
     const float SIN_60           = 0.5f * sqrt(3.f);
     const float ANGLE_60_D       = 60;
+    const QVector3D Y_AXIS = QVector3D(0, 1, 0);
+    const QVector3D X_AXIS = QVector3D(1, 0, 0);
 
     float radiansToDegrees(float radians);
     float degreeToRadians(float degree);

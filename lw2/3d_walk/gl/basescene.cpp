@@ -73,12 +73,12 @@ void BaseScene::onPop()
     });
 }
 
-SceneCamera &BaseScene::camera()
+SceneCamera & BaseScene::camera()
 {
     return m_camera;
 }
 
-const SceneCamera &BaseScene::camera() const
+SceneCamera const& BaseScene::camera() const
 {
     return m_camera;
 }

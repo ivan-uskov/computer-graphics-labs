@@ -59,3 +59,8 @@ QVector3D SceneCamera::speed() const
 {
     return m_speed;
 }
+
+void SceneCamera::updateCamera(Camera const& newCamera)
+{
+    lookAt(newCamera.eye(), newCamera.at(), newCamera.up());
+}

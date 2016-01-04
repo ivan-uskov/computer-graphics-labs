@@ -10,4 +10,8 @@ public:
 
 private:
     static bool isCubeValid(QJsonValue const& lengthJson, QJsonArray const& positionJson);
+
+private:
+    CubeJsonFactory() = delete;
+    ~CubeJsonFactory() = delete;
 };

@@ -1,6 +1,8 @@
 #pragma once
 #include <QGuiApplication>
 #include "ui/window3d.h"
+#include "controller/cameracontroller.h"
+#include "gl/camera.h"
 
 class GameApplication : public QGuiApplication
 {
@@ -12,18 +14,13 @@ public:
 
 private slots:
     void loadScene();
-    void moveCamera(QPointF const& deltha);
-    void zoomCamera(int delthaZoom);
-    void keyPressed(Qt::Key key);
 
 private:
     void bindWindowSignals();
-    void updateCamera();
     void fillMainScene();
+    void setupCamera();
 
     Window3D m_window;
     std::shared_ptr<BaseScene> m_scene;
-    QVector3D m_eye = QVector3D(0, 8, 8);
-    QVector3D m_at  = QVector3D(0, 0, 0);
-    QVector3D m_up  = QVector3D(0, 12, 0);
+    CameraController m_cameraController;
 };

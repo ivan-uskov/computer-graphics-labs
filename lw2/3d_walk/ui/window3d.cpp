@@ -12,6 +12,7 @@ Window3D::Window3D(QWindow *parent)
 {
     setSurfaceType(QWindow::OpenGLSurface);
     setFlags(flags() | Qt::WindowMinimizeButtonHint | Qt::WindowCloseButtonHint);
+    setCursor(Qt::CrossCursor);
 }
 
 void Window3D::setFixedSize(QSize size)

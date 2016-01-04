@@ -11,4 +11,9 @@ namespace JsonKey
     const QString POSITION        = "position";
     const QString MODIFIERS       = "modifiers";
     const QString ROTATION_CENTER = "rotation_center";
+    const QString ROTATION_AXIS   = "rotation_axis";
+    const QString COLOR           = "color";
+    const QString EYE             = "eye";
+    const QString AT              = "at";
+    const QString UP              = "up";
 }

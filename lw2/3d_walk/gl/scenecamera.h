@@ -4,8 +4,8 @@
 #include <QVector3D>
 #include <QSize>
 #include <stdint.h>
+#include "../gl/camera.h"
 
-/// Static camera, can be manually controlled.
 class SceneCamera : public QObject
 {
     Q_OBJECT
@@ -26,8 +26,8 @@ public:
     void setSpeed(QVector3D speed);
     QVector3D speed() const;
 
-protected:
-
+public slots:
+    void updateCamera(Camera const& newCamera);
 
 private:
     QSize m_viewport;

@@ -5,11 +5,6 @@
 #include "../utils/mycast.h"
 #include <QJsonArray>
 
-namespace
-{
-    const int VECTOR_SIZE = 3;
-}
-
 bool CubeJsonFactory::create(SceneNode * root, QJsonObject const& object)
 {
     auto lengthJson = object[JsonKey::LENGTH];
@@ -29,5 +24,5 @@ bool CubeJsonFactory::create(SceneNode * root, QJsonObject const& object)
 
 bool CubeJsonFactory::isCubeValid(QJsonValue const& lengthJson, QJsonArray const& positionJson)
 {
-    return lengthJson.isDouble() && positionJson.size() == VECTOR_SIZE;
+    return lengthJson.isDouble() && MyCast::isVector3DJson(positionJson);
 }

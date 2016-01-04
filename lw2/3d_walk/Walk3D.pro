@@ -27,10 +27,13 @@ SOURCES += main.cpp \
     utils/scenenodefactory.cpp \
     factory/cubejsonfactory.cpp \
     utils/mycast.cpp \
-    modifier/rotatingynodemodifier.cpp \
     nodes/modifiedscenenode.cpp \
     nodes/cubenode.cpp \
-    factory/modifiersjsonfactory.cpp
+    factory/modifiersjsonfactory.cpp \
+    modifier/rotatingnodemodifier.cpp \
+    modifier/solidcolornodemodifier.cpp \
+    controller/cameracontroller.cpp \
+    gl/camera.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -50,11 +53,14 @@ HEADERS  += \
     config/jsonkey.h \
     utils/mycast.h \
     modifier/inodemodifier.h \
-    modifier/rotatingynodemodifier.h \
     nodes/modifiedscenenode.h \
     nodes/cubenode.h \
     factory/modifiersjsonfactory.h \
-    config/modifier.h
+    config/modifier.h \
+    modifier/rotatingnodemodifier.h \
+    modifier/solidcolornodemodifier.h \
+    controller/cameracontroller.h \
+    gl/camera.h
 
 FORMS    +=
 
