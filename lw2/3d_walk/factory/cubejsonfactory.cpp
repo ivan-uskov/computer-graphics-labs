@@ -3,7 +3,6 @@
 #include "../nodes/cubenode.h"
 #include "../config/jsonkey.h"
 #include "../utils/mycast.h"
-#include <QJsonArray>
 
 bool CubeJsonFactory::create(SceneNode * root, QJsonObject const& object)
 {

@@ -13,4 +13,6 @@ namespace MyCast
     QVector3D jsonArrayToVector3D(QJsonArray const& vectorArray);
 
     QVector4D jsonArrayToVector4D(QJsonArray const& vectorArray);
+
+    QVector3D vec3ToVector3D(MyMath::Vec3 const& vec3);
 }

@@ -8,6 +8,12 @@
 	"objects":
 	[
 		{
+			"type": "sphere",
+			"radius": 2,
+			"position": [0, 0, 0],
+			"accuracy": 100
+		},
+		{
 			"type": "cube",
 			"length": 2,
 			"position": [4, 0, -4],
@@ -34,11 +40,6 @@
 					"rotation_axis": [0, 1, 1]
 				}
 			]
-		},
-		{
-			"type": "cube",
-			"length": 2,
-			"position": [0, 0, 0]
 		},
 		{
 			"type": "cube",

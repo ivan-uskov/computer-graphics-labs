@@ -10,7 +10,6 @@ public:
     int length() const;
 
 private:
-
     MyMath::Vec3 m_position;
     int m_length;
 };

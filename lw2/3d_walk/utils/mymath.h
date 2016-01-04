@@ -8,22 +8,13 @@
 namespace MyMath
 {
     static const int FULL_RING_D = 360;
-    static const int HALF_RING_D = 180;
-    const float SIN_30           = 0.5f;
-    const float SIN_60           = 0.5f * sqrt(3.f);
-    const float ANGLE_60_D       = 60;
+
     const QVector3D Y_AXIS = QVector3D(0, 1, 0);
     const QVector3D X_AXIS = QVector3D(1, 0, 0);
+    const QVector3D Z_AXIS = QVector3D(0, 0, 1);
 
-    float radiansToDegrees(float radians);
-    float degreeToRadians(float degree);
-    QVector3D rotateY(QVector3D const& vec, float angle);
-    QVector3D rotateZ(QVector3D const& vec, float angle);
-    QVector3D rotateX(QVector3D const& vec, float angle);
-
-    QMatrix3x3 zRotateMatrix3(float angle);
-    QMatrix3x3 yRotateMatrix3(float angle);
-    QMatrix3x3 xRotateMatrix3(float angle);
+    const int VECTOR_3_SIZE = 3;
+    const int VECTOR_4_SIZE = 4;
 
     struct Vec3
     {
@@ -40,6 +31,7 @@ namespace MyMath
         Vec3 pos;
         Color4 color;
     };
+
+    typedef SimpleVertex * SimpleVertexArray;
 }
 
-QVector3D operator * (QMatrix3x3 const& lhs, QVector3D const& rhs);

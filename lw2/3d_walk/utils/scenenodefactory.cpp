@@ -2,6 +2,7 @@
 #include "../config/jsonkey.h"
 #include "../config/model.h"
 #include "../factory/cubejsonfactory.h"
+#include "../factory/spherejsonfactory.h"
 
 bool SceneNodeFactory::createSceneObject(SceneNode * parent, QJsonObject const& object)
 {
@@ -11,6 +12,10 @@ bool SceneNodeFactory::createSceneObject(SceneNode * parent, QJsonObject const& 
     if (type == ModelItemType::CUBE)
     {
         success = CubeJsonFactory::create(parent, object);
+    }
+    else if (type == ModelItemType::SPHERE)
+    {
+        success = SphereJsonFactory::create(parent, object);
     }
     else
     {

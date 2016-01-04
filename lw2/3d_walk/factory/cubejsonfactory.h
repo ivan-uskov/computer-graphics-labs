@@ -9,7 +9,7 @@ public:
     static bool create(SceneNode * root, QJsonObject const& object);
 
 private:
-    static bool isCubeValid(QJsonValue const& lengthJson, QJsonArray const& positionJson);
+    static bool isCubeValid(QJsonValue const& radiusJson, QJsonArray const& positionJson);
 
 private:
     CubeJsonFactory() = delete;

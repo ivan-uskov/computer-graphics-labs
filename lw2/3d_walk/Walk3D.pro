@@ -20,7 +20,6 @@ SOURCES += main.cpp \
     gameapplication.cpp \
     gl/scenecamera.cpp \
     gl/glhelper.cpp \
-    utils/mymath.cpp \
     utils/rangef.cpp \
     model/cube.cpp \
     utils/jsonsceneloader.cpp \
@@ -33,7 +32,10 @@ SOURCES += main.cpp \
     modifier/rotatingnodemodifier.cpp \
     modifier/solidcolornodemodifier.cpp \
     controller/cameracontroller.cpp \
-    gl/camera.cpp
+    gl/camera.cpp \
+    model/sphere.cpp \
+    nodes/spherenode.cpp \
+    factory/spherejsonfactory.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -60,7 +62,10 @@ HEADERS  += \
     modifier/rotatingnodemodifier.h \
     modifier/solidcolornodemodifier.h \
     controller/cameracontroller.h \
-    gl/camera.h
+    gl/camera.h \
+    model/sphere.h \
+    nodes/spherenode.h \
+    factory/spherejsonfactory.h
 
 FORMS    +=
 

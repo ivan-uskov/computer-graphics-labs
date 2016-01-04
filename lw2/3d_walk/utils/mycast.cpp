@@ -1,10 +1,6 @@
 #include "mycast.h"
 
-namespace
-{
-    const int VECTOR_3_SIZE = 3;
-    const int VECTOR_4_SIZE = 4;
-}
+using namespace MyMath;
 
 namespace MyCast
 {
@@ -47,7 +43,11 @@ namespace MyCast
                vectorArray[0].isDouble()           &&
                vectorArray[1].isDouble()           &&
                vectorArray[2].isDouble()           &&
-               vectorArray[3].isDouble();
+                vectorArray[3].isDouble();
     }
 
+    QVector3D vec3ToVector3D(const MyMath::Vec3 &vec3)
+    {
+        return QVector3D(vec3.x, vec3.y, vec3.z);
+    }
 }

@@ -26,3 +26,12 @@ void ModifiedSceneNode::addModifier(shared_ptr<INodeModifier> && modifier)
 {
     m_modifiers.push_back(modifier);
 }
+
+void ModifiedSceneNode::prepareVertexArray(MyMath::SimpleVertexArray vertexArray)
+{
+    for (int i = 0; i < m_vertexCount; ++i)
+    {
+        auto vert = vertexArray + i;
+        prepareVertex(vert);
+    }
+}

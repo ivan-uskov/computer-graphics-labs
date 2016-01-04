@@ -16,4 +16,6 @@ namespace JsonKey
     const QString EYE             = "eye";
     const QString AT              = "at";
     const QString UP              = "up";
+    const QString RADIUS          = "radius";
+    const QString ACCURACY        = "accuracy";
 }

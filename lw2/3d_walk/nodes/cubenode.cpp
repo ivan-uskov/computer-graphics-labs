@@ -53,9 +53,10 @@ void CubeNode::draw(bool isOnlyBorder)
         {{x - hl, y - hl, z + hl}, {255, 0, 255, 255}},     // 4
         {{x + hl, y - hl, z + hl}, {255, 255, 255, 255}},   // 5
         {{x + hl, y + hl, z + hl}, {0, 255, 255, 255}},     // 6
-        {{x - hl, y + hl, z + hl}, {0, 0, 255, 255}},       // 7
+        {{x - hl, y + hl, z + hl}, {0, 0, 255, 255}}        // 7
     };
 
+    m_vertexCount = sizeof(vertices) / sizeof(SimpleVertex);
     prepareVertexArray(vertices);
 
     if (isOnlyBorder)
@@ -73,12 +74,12 @@ void CubeNode::draw(bool isOnlyBorder)
 
     const unsigned char faces[6][4] =
     {
-        {4, 7, 3, 0},	// грань x<0
-        {5, 1, 2, 6},	// грань x>0
-        {4, 0, 1, 5},	// грань y<0
-        {7, 6, 2, 3},	// грань y>0
-        {0, 3, 2, 1},	// грань z<0
-        {4, 5, 6, 7},	// грань z>0
+        {4, 7, 3, 0},   // грань x<0
+        {5, 1, 2, 6},   // грань x>0
+        {4, 0, 1, 5},   // грань y<0
+        {7, 6, 2, 3},   // грань y>0
+        {0, 3, 2, 1},   // грань z<0
+        {4, 5, 6, 7},   // грань z>0
     };
 
     glVertexPointer(3, GL_FLOAT, sizeof(SimpleVertex), &vertices[0].pos);
@@ -92,13 +93,4 @@ void CubeNode::draw(bool isOnlyBorder)
 
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
-}
-
-void CubeNode::prepareVertexArray(VertexArray vertexArray)
-{
-    for (int i = 0; i < VERTEX_ARRAY_SIZE; ++i)
-    {
-        auto vert = vertexArray + i;
-        prepareVertex(vert);
-    }
 }
