@@ -7,6 +7,13 @@
 
 namespace MyMath
 {
+    typedef unsigned int VertexIndex;
+
+    struct Triangle
+    {
+        VertexIndex p1, p2 ,p3;
+    };
+
     static const int FULL_RING_D = 360;
 
     const QVector3D Y_AXIS = QVector3D(0, 1, 0);
@@ -35,5 +42,7 @@ namespace MyMath
     typedef SimpleVertex * SimpleVertexArray;
 
     QVector3D middle(QVector3D const& p1, QVector3D const& p2);
+    void copyVertices(std::vector<QVector3D> const& src, SimpleVertex * dst, unsigned vertexCount);
+    void copyFaces(std::vector<Triangle> const& src, VertexIndex * dst);
 }
 

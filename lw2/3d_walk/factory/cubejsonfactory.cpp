@@ -14,7 +14,7 @@ bool CubeJsonFactory::create(SceneNode * root, QJsonObject const& object)
         return false;
     }
 
-    auto position = MyCast::jsonArrayToVec3(positionJson);
+    auto position = MyCast::jsonArrayToVector3D(positionJson);
     auto length = lengthJson.toInt();
 
     auto node = new CubeNode(root, Cube(position, length));

@@ -1,19 +1,19 @@
 #pragma once
-#include "../utils/mymath.h"
+#include <QVector3D>
 #include "tetrahedron.h"
 
 class Sphere
 {
 public:
-    explicit Sphere(MyMath::Vec3 const& position, int radius);
+    explicit Sphere(QVector3D const& position, int radius);
 
-    MyMath::Vec3 position() const;
+    QVector3D position() const;
     int radius() const;
 
     Tetrahedron getTetrahedron() const;
 
 private:
-    MyMath::Vec3 m_position;
+    QVector3D m_position;
     int m_radius;
 };
 

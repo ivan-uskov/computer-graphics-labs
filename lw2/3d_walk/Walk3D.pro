@@ -23,7 +23,7 @@ SOURCES += main.cpp \
     utils/rangef.cpp \
     model/cube.cpp \
     utils/jsonsceneloader.cpp \
-    utils/scenenodefactory.cpp \
+    factory/scenenodefactory.cpp \
     factory/cubejsonfactory.cpp \
     utils/mycast.cpp \
     nodes/modifiedscenenode.cpp \
@@ -38,7 +38,10 @@ SOURCES += main.cpp \
     factory/spherejsonfactory.cpp \
     model/tetrahedron.cpp \
     modifier/multiplecolornodemodifier.cpp \
-    utils/mymath.cpp
+    utils/mymath.cpp \
+    model/cylinder.cpp \
+    factory/cylinderjsonfactory.cpp \
+    nodes/cylindernode.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -52,7 +55,7 @@ HEADERS  += \
     utils/rangef.h \
     model/cube.h \
     utils/jsonsceneloader.h \
-    utils/scenenodefactory.h \
+    factory/scenenodefactory.h \
     config/model.h \
     factory/cubejsonfactory.h \
     config/jsonkey.h \
@@ -70,7 +73,10 @@ HEADERS  += \
     nodes/spherenode.h \
     factory/spherejsonfactory.h \
     model/tetrahedron.h \
-    modifier/multiplecolornodemodifier.h
+    modifier/multiplecolornodemodifier.h \
+    model/cylinder.h \
+    factory/cylinderjsonfactory.h \
+    nodes/cylindernode.h
 
 FORMS    +=
 

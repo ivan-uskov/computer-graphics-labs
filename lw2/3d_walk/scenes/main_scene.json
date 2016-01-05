@@ -8,6 +8,36 @@
 	"objects":
 	[
 		{
+			"type": "cylinder",
+			"half_height": [0, 1, 0],
+			"radius": [0.5, 0.5, 0],
+			"position": [2, 4, 0],
+			"accuracy": 50,
+			"modifiers":
+			[
+				{
+					"type": "multiple_color",
+					"colors":
+					[
+						[255, 0, 0, 255],
+						[255, 255, 0, 255],
+						[0, 255, 0, 255],
+						[0, 0, 0, 255],
+						[255, 0, 255, 255],
+						[255, 255, 255, 255],
+						[0, 255, 255, 255],
+						[0, 0, 255, 255]
+					]
+				},
+				{
+					"type": "rotating",
+					"speed": 170,
+					"rotation_center": [0, 4, 0],
+					"rotation_axis": [0, 1, 0]
+				}
+			]
+		},
+		{
 			"type": "sphere",
 			"radius": 2,
 			"position": [0, 0, 0],
@@ -53,13 +83,13 @@
 		{
 			"type": "cube",
 			"length": 4,
-			"position": [-9, 0, 0],
+			"position": [9, 0, 0],
 			"modifiers":
 			[
 				{
 					"type": "rotating",
 					"speed": 70,
-					"rotation_center": [-9, 0, 0],
+					"rotation_center": [9, 0, 0],
 					"rotation_axis": [1, 1, 1]
 				},
 				{

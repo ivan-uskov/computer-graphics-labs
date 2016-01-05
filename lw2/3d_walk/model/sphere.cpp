@@ -1,14 +1,14 @@
 #include "sphere.h"
-#include "../utils/mycast.h"
+#include "../utils/mymath.h"
 #include <QMatrix4x4>
 
-Sphere::Sphere(MyMath::Vec3 const& position, int radius)
+Sphere::Sphere(QVector3D const& position, int radius)
     : m_position(position)
     , m_radius(radius)
 {
 }
 
-MyMath::Vec3 Sphere::position() const
+QVector3D Sphere::position() const
 {
     return m_position;
 }
@@ -26,11 +26,10 @@ Tetrahedron Sphere::getTetrahedron() const
     rotation.rotate(MyMath::FULL_RING_D / 3, MyMath::Y_AXIS);
     translation.translate(- MyMath::Y_AXIS * heightMinusRadius);
 
-    auto position = MyCast::vec3ToVector3D(m_position);
-    QVector3D p2Direction = (translation * (position + MyMath::Z_AXIS));
+    QVector3D p2Direction = (translation * (m_position + MyMath::Z_AXIS));
 
-    auto p1 = position + MyMath::Y_AXIS * m_radius;
-    auto p2 = position + p2Direction.normalized() * m_radius;
+    auto p1 = m_position + MyMath::Y_AXIS * m_radius;
+    auto p2 = m_position + p2Direction.normalized() * m_radius;
     auto p3 = rotation * p2;
     auto p4 = rotation * p3;
 

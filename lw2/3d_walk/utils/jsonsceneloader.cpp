@@ -1,7 +1,7 @@
 #include "jsonsceneloader.h"
-#include "../utils/scenenodefactory.h"
+#include "../factory/scenenodefactory.h"
 #include "../config/jsonkey.h"
-#include "../utils/mycast.h"
+#include "mycast.h"
 #include <QFile>
 #include <QIODevice>
 #include <QJsonArray>

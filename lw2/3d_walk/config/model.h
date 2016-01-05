@@ -3,6 +3,7 @@
 
 namespace ModelItemType
 {
-    const QString CUBE   = "cube";
-    const QString SPHERE = "sphere";
+    const QString CUBE     = "cube";
+    const QString SPHERE   = "sphere";
+    const QString CYLINDER = "cylinder";
 }

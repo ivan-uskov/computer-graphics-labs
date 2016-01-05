@@ -19,4 +19,5 @@ namespace JsonKey
     const QString UP              = "up";
     const QString RADIUS          = "radius";
     const QString ACCURACY        = "accuracy";
+    const QString HALF_HEIGHT     = "half_height";
 }

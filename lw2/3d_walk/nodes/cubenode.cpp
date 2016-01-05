@@ -39,9 +39,9 @@ void CubeNode::render(QPainter &)
 
 void CubeNode::draw(bool isOnlyBorder)
 {
-    const auto x = m_cube.position().x;
-    const auto y = m_cube.position().y;
-    const auto z = m_cube.position().z;
+    const auto x = m_cube.position().x();
+    const auto y = m_cube.position().y();
+    const auto z = m_cube.position().z();
     const float hl = m_cube.length() / 2;
 
     SimpleVertex vertices[8] =
@@ -82,9 +82,9 @@ void CubeNode::draw(bool isOnlyBorder)
         {4, 5, 6, 7},   // грань z>0
     };
 
-    glVertexPointer(3, GL_FLOAT, sizeof(SimpleVertex), &vertices[0].pos);
+    glVertexPointer(VECTOR_3_SIZE, GL_FLOAT, sizeof(SimpleVertex), &vertices[0].pos);
 
-    glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(SimpleVertex), &vertices[0].color);
+    glColorPointer(VECTOR_4_SIZE, GL_UNSIGNED_BYTE, sizeof(SimpleVertex), &vertices[0].color);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);

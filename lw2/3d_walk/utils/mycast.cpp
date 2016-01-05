@@ -43,7 +43,7 @@ namespace MyCast
                vectorArray[0].isDouble()           &&
                vectorArray[1].isDouble()           &&
                vectorArray[2].isDouble()           &&
-                vectorArray[3].isDouble();
+               vectorArray[3].isDouble();
     }
 
     QVector3D vec3ToVector3D(const MyMath::Vec3 &vec3)

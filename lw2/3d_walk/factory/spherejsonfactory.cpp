@@ -15,7 +15,7 @@ bool SphereJsonFactory::create(SceneNode * root, QJsonObject const& object)
         return false;
     }
 
-    auto position = MyCast::jsonArrayToVec3(positionJson);
+    auto position = MyCast::jsonArrayToVector3D(positionJson);
     auto accuracy = accuracyJson.toInt();
     auto radius = radiusJson.toInt();
 

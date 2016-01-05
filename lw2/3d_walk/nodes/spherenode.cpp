@@ -41,8 +41,8 @@ void SphereNode::render(QPainter &)
     prepareVertexArray(vertices);
 
     glVertexPointer(VECTOR_3_SIZE, GL_FLOAT, sizeof(SimpleVertex), &vertices[0].pos);
-    glNormalPointer(GL_FLOAT, sizeof(Vec3), normales);
     glColorPointer(VECTOR_4_SIZE, GL_UNSIGNED_BYTE, sizeof(SimpleVertex), &vertices[0].color);
+    glNormalPointer(GL_FLOAT, sizeof(Vec3), normales);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
@@ -99,8 +99,7 @@ void SphereNode::triangulateOnce(vector<Triangle> & triangles, vector<QVector3D>
 
 QVector3D SphereNode::sphereProject(QVector3D const& vertex) const
 {
-    auto position = MyCast::vec3ToVector3D(m_sphere.position());
-    auto vertexVector = (vertex - position).normalized();
+    auto vertexVector = (vertex - m_sphere.position()).normalized();
     return vertexVector * m_sphere.radius();
 }
 
@@ -129,10 +128,9 @@ void SphereNode::copyFaces(vector<Triangle> const& src, VertexIndex * dst) const
 
 void SphereNode::fillNormales(vector<QVector3D> const& vertices, Vec3 * normales)
 {
-    auto position = MyCast::vec3ToVector3D(m_sphere.position());
     for (size_t i = 0; i < m_vertexCount; ++i)
     {
-        auto n = (vertices[i] - position).normalized();
+        auto n = (vertices[i] - m_sphere.position()).normalized();
         normales[i] = {n.x(), n.y(), n.z()};
     }
 }

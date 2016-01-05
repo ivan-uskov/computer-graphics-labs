@@ -2,7 +2,7 @@
 
 
 
-Tetrahedron::Tetrahedron(const QVector3D &p1, const QVector3D &p2, const QVector3D &p3, const QVector3D &p4)
+Tetrahedron::Tetrahedron(QVector3D const& p1, QVector3D const& p2, QVector3D const& p3, QVector3D const& p4)
     : m_p1(p1)
     , m_p2(p2)
     , m_p3(p3)
