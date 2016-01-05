@@ -3,6 +3,7 @@
 
 namespace ModifierType
 {
-    const QString ROTATING_Y  = "rotating_y";
-    const QString SOLID_COLOR = "solid_color";
+    const QString ROTATING       = "rotating";
+    const QString SOLID_COLOR    = "solid_color";
+    const QString MULTIPLE_COLOR = "multiple_color";
 }

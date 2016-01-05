@@ -35,7 +35,10 @@ SOURCES += main.cpp \
     gl/camera.cpp \
     model/sphere.cpp \
     nodes/spherenode.cpp \
-    factory/spherejsonfactory.cpp
+    factory/spherejsonfactory.cpp \
+    model/tetrahedron.cpp \
+    modifier/multiplecolornodemodifier.cpp \
+    utils/mymath.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -65,7 +68,9 @@ HEADERS  += \
     gl/camera.h \
     model/sphere.h \
     nodes/spherenode.h \
-    factory/spherejsonfactory.h
+    factory/spherejsonfactory.h \
+    model/tetrahedron.h \
+    modifier/multiplecolornodemodifier.h
 
 FORMS    +=
 

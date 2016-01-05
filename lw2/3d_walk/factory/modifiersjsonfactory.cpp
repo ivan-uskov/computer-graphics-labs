@@ -3,6 +3,7 @@
 #include "../config/modifier.h"
 #include "../modifier/rotatingnodemodifier.h"
 #include "../modifier/solidcolornodemodifier.h"
+#include "../modifier/multiplecolornodemodifier.h"
 #include "../utils/mycast.h"
 #include <QJsonValue>
 #include <QJsonArray>
@@ -32,13 +33,17 @@ bool ModifiersJsonFactory::addModifier(ModifiedSceneNode * node, QJsonObject con
 {
     auto type = modifier[JsonKey::TYPE].toString();
 
-    if (type == ModifierType::ROTATING_Y)
+    if (type == ModifierType::ROTATING)
     {
         return addRotatingModifier(node, modifier);
     }
     else if (type == ModifierType::SOLID_COLOR)
     {
         return addSolidColorModifier(node, modifier);
+    }
+    else if (type == ModifierType::MULTIPLE_COLOR)
+    {
+        return addMultipleColorModifier(node, modifier);
     }
 
     return false;
@@ -81,5 +86,25 @@ bool ModifiersJsonFactory::addSolidColorModifier(ModifiedSceneNode * node, QJson
     }
 
     node->addModifier(std::make_shared<SolidColorNodeModifier>(MyCast::jsonArrayToVector4D(colorJson)));
+    return true;
+}
+
+bool ModifiersJsonFactory::addMultipleColorModifier(ModifiedSceneNode * node, QJsonObject const& modifier)
+{
+    std::vector<QVector4D> colors;
+
+    auto colorsJson = modifier[JsonKey::COLORS].toArray();
+    for (auto const colorRefJson : colorsJson)
+    {
+        auto colorJson = colorRefJson.toArray();
+        if (!MyCast::isVector4DJson(colorJson))
+        {
+            return false;
+        }
+
+        colors.push_back(MyCast::jsonArrayToVector4D(colorJson));
+    }
+
+    node->addModifier(std::make_shared<MultipleColorNodeModifier>(colors));
     return true;
 }

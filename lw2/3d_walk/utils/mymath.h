@@ -33,5 +33,7 @@ namespace MyMath
     };
 
     typedef SimpleVertex * SimpleVertexArray;
+
+    QVector3D middle(QVector3D const& p1, QVector3D const& p2);
 }
 

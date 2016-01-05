@@ -13,6 +13,7 @@ private:
 
     static bool addRotatingModifier(ModifiedSceneNode * node, QJsonObject const& modifier);
     static bool addSolidColorModifier(ModifiedSceneNode * node, QJsonObject const& modifier);
+    static bool addMultipleColorModifier(ModifiedSceneNode * node, QJsonObject const& modifier);
 
 private:
     ModifiersJsonFactory() = delete;
