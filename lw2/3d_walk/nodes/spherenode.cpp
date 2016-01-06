@@ -29,7 +29,7 @@ void SphereNode::render(QPainter &)
 
     m_vertexCount = (int) verticeses.size();
     auto vertices = new SimpleVertex[m_vertexCount];
-    copyVertices(verticeses, vertices);
+    copyVertices(verticeses, vertices, m_vertexCount);
 
     auto facesSize = faceses.size() * VECTOR_3_SIZE;
     auto faces = new VertexIndex[facesSize];
@@ -101,29 +101,6 @@ QVector3D SphereNode::sphereProject(QVector3D const& vertex) const
 {
     auto vertexVector = (vertex - m_sphere.position()).normalized();
     return vertexVector * m_sphere.radius();
-}
-
-void SphereNode::copyVertices(std::vector<QVector3D> const& src, SimpleVertex * dst) const
-{
-    for (size_t i = 0; i < m_vertexCount; ++i)
-    {
-        dst[i] =
-        {
-            {src[i].x(), src[i].y(), src[i].z()},
-            {0, 0, 0, 255}
-        };
-    }
-}
-
-void SphereNode::copyFaces(vector<Triangle> const& src, VertexIndex * dst) const
-{
-    for (size_t i = 0; i < src.size(); ++i)
-    {
-        auto i0 = i * VECTOR_3_SIZE;
-        dst[i0] = src[i].p1;
-        dst[i0 + 1] = src[i].p2;
-        dst[i0 + 2] = src[i].p3;
-    }
 }
 
 void SphereNode::fillNormales(vector<QVector3D> const& vertices, Vec3 * normales)

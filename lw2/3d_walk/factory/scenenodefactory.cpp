@@ -4,6 +4,7 @@
 #include "../factory/cubejsonfactory.h"
 #include "../factory/spherejsonfactory.h"
 #include "../factory/cylinderjsonfactory.h"
+#include "../factory/conejsonfactory.h"
 
 bool SceneNodeFactory::createSceneObject(SceneNode * parent, QJsonObject const& object)
 {
@@ -20,6 +21,10 @@ bool SceneNodeFactory::createSceneObject(SceneNode * parent, QJsonObject const& 
     else if (type == ModelItemType::CYLINDER)
     {
         return CylinderJsonFactory::create(parent, object);
+    }
+    else if (type == ModelItemType::CONE)
+    {
+        return ConeJsonFactory::create(parent, object);
     }
 
     return false;

@@ -16,8 +16,6 @@ private:
     void triangulateOnce(std::vector<MyMath::Triangle> & triangles, std::vector<QVector3D> & vertices) const;
     QVector3D sphereProject(QVector3D const& vertex) const;
 
-    void copyVertices(std::vector<QVector3D> const& src, MyMath::SimpleVertex * dst) const;
-    void copyFaces(std::vector<MyMath::Triangle> const& src, MyMath::VertexIndex * dst) const;
     void fillNormales(std::vector<QVector3D> const& verteces, MyMath::Vec3 * normales);
 
     Sphere m_sphere;

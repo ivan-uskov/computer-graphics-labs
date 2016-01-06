@@ -41,7 +41,10 @@ SOURCES += main.cpp \
     utils/mymath.cpp \
     model/cylinder.cpp \
     factory/cylinderjsonfactory.cpp \
-    nodes/cylindernode.cpp
+    nodes/cylindernode.cpp \
+    model/cone.cpp \
+    factory/conejsonfactory.cpp \
+    nodes/conenode.cpp
 
 HEADERS  += \
     ui/window3d.h \
@@ -76,7 +79,10 @@ HEADERS  += \
     modifier/multiplecolornodemodifier.h \
     model/cylinder.h \
     factory/cylinderjsonfactory.h \
-    nodes/cylindernode.h
+    nodes/cylindernode.h \
+    model/cone.h \
+    factory/conejsonfactory.h \
+    nodes/conenode.h
 
 FORMS    +=
 
