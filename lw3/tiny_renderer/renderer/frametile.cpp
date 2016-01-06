@@ -8,7 +8,7 @@ FrameTile::FrameTile(Vec2i origin, Vec2i size)
 {
 }
 
-void FrameTile::init(TGAImage &image, float *zbuffer)
+void FrameTile::init(TGAImage & image, float * zbuffer)
 {
     m_imageSize = image.get_size();
     m_data = image.buffer();
@@ -21,7 +21,7 @@ TGAColor FrameTile::get(int x, int y) const
     return TGAColor(m_data + m_bytespp * index(x, y), m_bytespp);
 }
 
-void FrameTile::set(int x, int y, const TGAColor &c)
+void FrameTile::set(int x, int y, TGAColor const& c)
 {
     memcpy(m_data + m_bytespp * index(x, y), c.bgra, m_bytespp);
 }

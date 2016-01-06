@@ -1,5 +1,4 @@
-#ifndef __MODEL_H__
-#define __MODEL_H__
+#pragma once
 #include <vector>
 #include <string>
 #include "geometry.h"
@@ -14,9 +13,9 @@ private:
     TGAImage diffusemap_;
     TGAImage normalmap_;
     TGAImage specularmap_;
-    void load_texture(std::string filename, const char *suffix, TGAImage &img);
+    void load_texture(std::string filename, char const* suffix, TGAImage & img);
 public:
-    Model(const char *filename);
+    Model(char const* filename);
     ~Model();
     int nverts();
     int nfaces();
@@ -29,5 +28,3 @@ public:
     float specular(Vec2f uv);
     std::vector<int> face(int idx);
 };
-#endif //__MODEL_H__
-

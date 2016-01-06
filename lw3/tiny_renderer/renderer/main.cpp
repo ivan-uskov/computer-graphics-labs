@@ -1,6 +1,7 @@
 #include <vector>
 #include <limits>
 #include <memory>
+#include "ThreadPool.h"
 #include <iostream>
 #include "tgaimage.h"
 #include "model.h"
@@ -26,28 +27,33 @@ Vec3f get_rotated_eye()
     float secondsSinceStart = 0.001f * float(SDL_GetTicks());
     float angle = 0.5f * secondsSinceStart;
     Matrix rotation = Matrix::identity();
+
     rotation[0][0] = cos(angle);
     rotation[1][0] = -sin(angle);
     rotation[1][1] = cos(angle);
     rotation[0][1] = sin(angle);
+
     Vec4f rotated = rotation * embed<4>(EYE, 1.f);
     return proj<3>(rotated);
 }
 
-void draw_3d_model_tile(Model &model, FrameTile &frame)
+void draw_3d_model_tile(Model & model, FrameTile & frame)
 {
     Shader shader;
     shader.setLightDirection(LIGHT_DIR);
-    shader.pModel = &model;
-    for (int i=0; i<model.nfaces(); i++) {
-        for (int j=0; j<3; j++) {
+    shader.pModel = & model;
+    for (int i = 0; i < model.nfaces(); ++i)
+    {
+        for (int j = 0; j < 3; ++j)
+        {
             shader.vertex(i, j);
         }
+
         triangle(shader.varying_tri, shader, frame);
     }
 }
 
-void draw_3d_model_simple(ModelPtrArray const& models, TGAImage &frame, float *zbuffer)
+void draw_3d_model_simple(ThreadPool & threadPool, ModelPtrArray const& models, TGAImage & frame, float * zbuffer)
 {
     const int width1 = frame.get_width() / 2;
     const int width2 = frame.get_width() - width1;
@@ -58,15 +64,19 @@ void draw_3d_model_simple(ModelPtrArray const& models, TGAImage &frame, float *z
     FrameTile tile2(Vec2i(width1, 0), Vec2i(width2, height1));
     FrameTile tile3(Vec2i(0, height1), Vec2i(width2, height2));
     FrameTile tile4(Vec2i(width1, height1), Vec2i(width2, height2));
+
     tile1.init(frame, zbuffer);
     tile2.init(frame, zbuffer);
     tile3.init(frame, zbuffer);
     tile4.init(frame, zbuffer);
-    for (auto const& pModel : models) {
-        draw_3d_model_tile(*pModel, tile1);
-        draw_3d_model_tile(*pModel, tile2);
-        draw_3d_model_tile(*pModel, tile3);
-        draw_3d_model_tile(*pModel, tile4);
+
+    for (auto const& pModel : models)
+    {
+        threadPool.runAsync(draw_3d_model_tile, *pModel, tile1);
+        threadPool.runAsync(draw_3d_model_tile, *pModel, tile2);
+        threadPool.runAsync(draw_3d_model_tile, *pModel, tile3);
+        threadPool.runAsync(draw_3d_model_tile, *pModel, tile4);
+        threadPool.joinAll();
     }
 }
 
@@ -74,7 +84,7 @@ int main(int argc, char** argv)
 {
     if (argc < 2)
     {
-        std::cerr << "Usage: " << argv[0] << " obj/model.obj" << std::endl;
+        std::cout << "Usage: " << argv[0] << " obj/model.obj" << std::endl;
         return 1;
     }
 
@@ -84,6 +94,8 @@ int main(int argc, char** argv)
         models.push_back(std::make_shared<Model>(argv[m]));
     }
 
+    ThreadPool threadPool(4); // becouse 4 tiles
+
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 
     std::unique_ptr<float[]> zbuffer(new float[WIDTH * HEIGHT]);
@@ -91,17 +103,26 @@ int main(int argc, char** argv)
     SDLWindow window(WIDTH, HEIGHT);
     std::shared_ptr<TGAImage> pFrame;
     window.swapBuffers(pFrame);
-    window.do_on_idle([&]() {
+    window.do_on_idle([&]()
+    {
         pFrame->clear();
-        for (int i = WIDTH * HEIGHT; i--; zbuffer[i] = -std::numeric_limits<float>::max());
+        int i = WIDTH * HEIGHT;
+        while (i--)
+        {
+            zbuffer[i] = -std::numeric_limits<float>::max();
+        }
+
         Vec3f eye = get_rotated_eye();
         lookat(eye, CENTER, UP);
         viewport(WIDTH / 8, HEIGHT / 8, WIDTH * 3 / 4, HEIGHT * 3 / 4);
         projection(- 1.f / (eye - CENTER).norm());
-        draw_3d_model_simple(models, *pFrame, zbuffer.get());
+
+        draw_3d_model_simple(threadPool, models, *pFrame, zbuffer.get());
+
         pFrame->flip_vertically(); // to place the origin in the bottom left corner of the image
         window.swapBuffers(pFrame);
     });
+
     window.show();
     window.wait_for_closed();
 

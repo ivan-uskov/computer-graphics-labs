@@ -5,7 +5,8 @@
 #include "geometry.h"
 
 #pragma pack(push, 1)
-struct TGA_Header {
+struct TGA_Header
+{
     char idlength;
     char colormaptype;
     char datatypecode;
@@ -21,7 +22,8 @@ struct TGA_Header {
 };
 #pragma pack(pop)
 
-struct TGAColor {
+struct TGAColor
+{
     unsigned char bgra[4];
     unsigned char bytespp;
 

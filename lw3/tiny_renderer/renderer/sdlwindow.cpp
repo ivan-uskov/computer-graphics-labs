@@ -9,15 +9,14 @@ class SDLWindow::Impl
 public:
     std::shared_ptr<TGAImage> m_pImage;
     Vec2i m_windowSize;
-    SDL_Window *m_pWindow = nullptr;
-    SDL_Surface *m_pWindowSurf = nullptr;
+    SDL_Window * m_pWindow = nullptr;
+    SDL_Surface * m_pWindowSurf = nullptr;
     int m_startTicks = 0;
     int m_framesCount = 0;
     std::function<void ()> m_onIdle;
 
     Impl()
-    {
-    }
+    {}
 
     ~Impl()
     {
