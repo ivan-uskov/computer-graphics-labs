@@ -80,6 +80,17 @@ void draw_3d_model_simple(ThreadPool & threadPool, ModelPtrArray const& models, 
     }
 }
 
+unsigned getThreadPoolSize()
+{
+    auto coreCount = std::thread::hardware_concurrency();
+    if (!coreCount)
+    {
+        coreCount = 4; // becouse 4 tiles
+    }
+
+    return coreCount;
+}
+
 int main(int argc, char** argv) 
 {
     if (argc < 2)
@@ -94,7 +105,7 @@ int main(int argc, char** argv)
         models.push_back(std::make_shared<Model>(argv[m]));
     }
 
-    ThreadPool threadPool(4); // becouse 4 tiles
+    ThreadPool threadPool(getThreadPoolSize());
 
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS);
 

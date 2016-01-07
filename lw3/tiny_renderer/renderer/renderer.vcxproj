@@ -71,10 +71,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
+    <IncludePath>C:\sdk\sdl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\sdk\sdl\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)tmp\$(ProjectName)\</IntDir>
+    <IncludePath>C:\sdk\sdl\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\sdk\sdl\lib\x86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>C:\sdk\sdl\include;$(IncludePath)</IncludePath>
