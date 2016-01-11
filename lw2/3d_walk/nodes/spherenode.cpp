@@ -27,36 +27,25 @@ void SphereNode::render(QPainter &)
 
     triangulate(faceses, verticeses);
 
-    m_vertexCount = (int) verticeses.size();
-    auto vertices = new SimpleVertex[m_vertexCount];
-    copyVertices(verticeses, vertices, m_vertexCount);
-
-    auto facesSize = faceses.size() * VECTOR_3_SIZE;
-    auto faces = new VertexIndex[facesSize];
-    copyFaces(faceses, faces);
-
-    auto normales = new Vec3[m_vertexCount];
-    fillNormales(verticeses, normales);
+    auto vertices = MyMath::vector3DToSimpleVertexArray(verticeses);
+    auto faces = MyMath::triangleToVertexIndexArray(faceses);
+    auto normales = fillNormales(verticeses);
 
     prepareVertexArray(vertices);
 
     glVertexPointer(VECTOR_3_SIZE, GL_FLOAT, sizeof(SimpleVertex), &vertices[0].pos);
     glColorPointer(VECTOR_4_SIZE, GL_UNSIGNED_BYTE, sizeof(SimpleVertex), &vertices[0].color);
-    glNormalPointer(GL_FLOAT, sizeof(Vec3), normales);
+    glNormalPointer(GL_FLOAT, sizeof(Vec3), normales.data());
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
     glEnableClientState(GL_NORMAL_ARRAY);
 
-    glDrawElements(GL_TRIANGLES, (GLsizei)facesSize, GL_UNSIGNED_INT, faces);
+    glDrawElements(GL_TRIANGLES, (GLsizei)faces.size(), GL_UNSIGNED_INT, faces.data());
 
     glDisableClientState(GL_COLOR_ARRAY);
     glDisableClientState(GL_VERTEX_ARRAY);
     glDisableClientState(GL_NORMAL_ARRAY);
-
-    delete[] vertices;
-    delete[] normales;
-    delete[] faces;
 }
 
 void SphereNode::triangulate(vector<Triangle> & triangles, vector<QVector3D> & vertices) const
@@ -103,11 +92,15 @@ QVector3D SphereNode::sphereProject(QVector3D const& vertex) const
     return vertexVector * m_sphere.radius();
 }
 
-void SphereNode::fillNormales(vector<QVector3D> const& vertices, Vec3 * normales)
+vector<Vec3> SphereNode::fillNormales(vector<QVector3D> const& vertices)
 {
-    for (size_t i = 0; i < m_vertexCount; ++i)
+    vector<Vec3> normales;
+
+    for (auto const& vertex : vertices)
     {
-        auto n = (vertices[i] - m_sphere.position()).normalized();
-        normales[i] = {n.x(), n.y(), n.z()};
+        auto n = (vertex - m_sphere.position()).normalized();
+        normales.push_back({n.x(), n.y(), n.z()});
     }
+
+    return normales;
 }

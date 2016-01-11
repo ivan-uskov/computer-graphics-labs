@@ -44,5 +44,8 @@ namespace MyMath
     QVector3D middle(QVector3D const& p1, QVector3D const& p2);
     void copyVertices(std::vector<QVector3D> const& src, SimpleVertex * dst, unsigned vertexCount);
     void copyFaces(std::vector<Triangle> const& src, VertexIndex * dst);
+
+    std::vector<VertexIndex> triangleToVertexIndexArray(std::vector<Triangle> const& src);
+    std::vector<SimpleVertex> vector3DToSimpleVertexArray(std::vector<QVector3D> const& src);
 }
 

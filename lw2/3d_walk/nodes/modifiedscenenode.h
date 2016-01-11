@@ -15,7 +15,7 @@ public:
     void prepareVertex(MyMath::SimpleVertex * vertex);
 
 protected:
-    void prepareVertexArray(MyMath::SimpleVertexArray vertexArray);
+    void prepareVertexArray(std::vector<MyMath::SimpleVertex> & vertices);
 
     int m_vertexCount = 0;
 

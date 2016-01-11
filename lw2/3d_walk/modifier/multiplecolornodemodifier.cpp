@@ -7,7 +7,7 @@ MultipleColorNodeModifier::MultipleColorNodeModifier(std::vector<QVector4D> cons
 
 void MultipleColorNodeModifier::advance(int64_t)
 {
-    //color not depends on times
+    m_currentColor = 0;
 }
 
 void MultipleColorNodeModifier::modify(MyMath::SimpleVertex * vertex)

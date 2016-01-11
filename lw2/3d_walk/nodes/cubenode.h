@@ -12,6 +12,7 @@ public:
     void render(QPainter & painter) override;
 
 private:
+    std::vector<MyMath::SimpleVertex> fillVertices() const;
     void draw(bool isOnlyBorder);
 
     Cube m_cube;

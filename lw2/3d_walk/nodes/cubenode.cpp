@@ -1,6 +1,7 @@
 #include "cubenode.h"
 #include "utils/mymath.h"
 #include <qopengl.h>
+#include <vector>
 
 /*
        Y
@@ -37,15 +38,14 @@ void CubeNode::render(QPainter &)
     glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
-void CubeNode::draw(bool isOnlyBorder)
+std::vector<SimpleVertex> CubeNode::fillVertices() const
 {
     const auto x = m_cube.position().x();
     const auto y = m_cube.position().y();
     const auto z = m_cube.position().z();
     const float hl = m_cube.length() / 2;
 
-    SimpleVertex vertices[8] =
-    {
+    return {
         {{x - hl, y - hl, z - hl}, {255, 0, 0, 255}},       // 0
         {{x + hl, y - hl, z - hl}, {255, 255, 0, 255}},     // 1
         {{x + hl, y + hl, z - hl}, {0, 255, 0, 255}},       // 2
@@ -55,13 +55,17 @@ void CubeNode::draw(bool isOnlyBorder)
         {{x + hl, y + hl, z + hl}, {0, 255, 255, 255}},     // 6
         {{x - hl, y + hl, z + hl}, {0, 0, 255, 255}}        // 7
     };
+}
 
-    m_vertexCount = sizeof(vertices) / sizeof(SimpleVertex);
+void CubeNode::draw(bool isOnlyBorder)
+{
+    auto vertices = fillVertices();
+
     prepareVertexArray(vertices);
 
     if (isOnlyBorder)
     {
-        for (SimpleVertex & vert : vertices)
+        for (auto & vert : vertices)
         {
             vert.pos.x *= 1.001f;
             vert.pos.y *= 1.001f;

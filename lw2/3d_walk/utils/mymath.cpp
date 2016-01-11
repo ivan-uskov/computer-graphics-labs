@@ -19,6 +19,35 @@ namespace MyMath
         }
     }
 
+    std::vector<SimpleVertex> vector3DToSimpleVertexArray(std::vector<QVector3D> const& src)
+    {
+        std::vector<SimpleVertex> dst;
+
+        for (auto const& vertex : src)
+        {
+            dst.push_back({
+                {vertex.x(), vertex.y(), vertex.z()},
+                {0, 0, 0, 255}
+            });
+        }
+
+        return dst;
+    }
+
+    std::vector<VertexIndex> triangleToVertexIndexArray(std::vector<Triangle> const& src)
+    {
+        std::vector<VertexIndex> dst;
+
+        for (auto const& tr : src)
+        {
+            dst.push_back(tr.p1);
+            dst.push_back(tr.p2);
+            dst.push_back(tr.p3);
+        }
+
+        return dst;
+    }
+
     void copyFaces(std::vector<Triangle> const& src, VertexIndex * dst)
     {
         for (size_t i = 0; i < src.size(); ++i)

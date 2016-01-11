@@ -16,7 +16,7 @@ private:
     void triangulateOnce(std::vector<MyMath::Triangle> & triangles, std::vector<QVector3D> & vertices) const;
     QVector3D sphereProject(QVector3D const& vertex) const;
 
-    void fillNormales(std::vector<QVector3D> const& verteces, MyMath::Vec3 * normales);
+    std::vector<MyMath::Vec3> fillNormales(std::vector<QVector3D> const& verteces);
 
     Sphere m_sphere;
     int m_vertexSize;
