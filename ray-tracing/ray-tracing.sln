@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ray-tracing", "ray-tracing\ray-tracing.vcxproj", "{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
+		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
+		Release-OMP|Win32 = Release-OMP|Win32
+		Release-OMP|x64 = Release-OMP|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Debug|Win32.Build.0 = Debug|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Debug|x64.ActiveCfg = Debug|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Release|Win32.ActiveCfg = Release|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Release|Win32.Build.0 = Release|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Release|x64.ActiveCfg = Release|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Release-OMP|Win32.ActiveCfg = Release|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Release-OMP|Win32.Build.0 = Release|Win32
+		{807C7476-D5A7-4B2F-80DA-FB2444EDDE1F}.Release-OMP|x64.ActiveCfg = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
